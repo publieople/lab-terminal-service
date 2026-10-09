@@ -1,0 +1,66 @@
+# 发布站点到 GitHub Pages
+#
+# 只在 main 分支上跑：合并进 main 就等于"对外发布"，这也是为什么 CI（docs-ci.yml）
+# 的构建门必须先过——页面进了 main 就会被真的挂到站点上。
+#
+# 用的是官方四步：configure-pages → mkdocs build --strict → upload-pages-artifact → deploy-pages。
+
+name: 发布 Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# 发布要拿 OIDC 令牌，所以 id-token: write 必须有；内容只需要读。
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一个 Pages 站点只能有一个发布在跑。这里不取消正在进行的部署：
+# 半途取消可能把站点留在中间状态，宁可排队。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: 构建站点
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: 安装文档依赖
+        run: pip install -r requirements-docs.txt
+
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+
+      - name: 严格模式构建（mkdocs build --strict）
+        run: mkdocs build --strict
+
+      - name: 上传站点产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署
+        id: deployment
+        uses: actions/deploy-pages@v4

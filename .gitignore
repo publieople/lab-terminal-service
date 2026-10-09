@@ -1,0 +1,39 @@
+# .gitignore —— 只忽略"本地产物"，不忽略任何内容。
+#
+# 仓库里唯一应该被版本管理的东西是：文档（docs/）、模板（_templates/）、
+# 规则（_schema/、*.yml、*.jsonc）、脚本（scripts/）、raw 素材、以及说明类 Markdown。
+# 下面这些全都是可以由上面那些东西重新生成或重新安装出来的，不该进版本库。
+
+# ---- 构建产物 ----
+# site/ 是 mkdocs build 的输出。它进仓库会带来两个后果：
+#   1. 每次改一个错别字，diff 里都会混进上百个生成文件；
+#   2. 别人会开始直接改 site/ 里的 HTML，然后下一次构建把改动全冲掉。
+site/
+build.log
+
+# ---- Python 虚拟环境与缓存 ----
+# .venv 由 CONTRIBUTING.md §1 的两条命令生成，里面有 Python 自己写的 .gitignore。
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# ---- Node（本地跑 markdownlint 时才会出现）----
+node_modules/
+.npm/
+package-lock.json
+pnpm-lock.yaml
+
+# ---- 编辑器与系统 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# ---- 本地临时目录 ----
+_tmp/
+_tmp_*/
+*.tmp

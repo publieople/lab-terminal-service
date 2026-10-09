@@ -1,0 +1,101 @@
+# ⚠️ 本模板用到的 `服务请求` 标签需要仓库管理员先在 Settings → Labels 里建好，
+#    否则 GitHub 提交时会静默忽略这个 labels 值，请求不会进入服务请求的筛选列表。
+
+name: 服务请求
+description: 申请服务器与算力、网络与设备互联、Agent 平台与工具链、ComfyUI 工作流、边缘设备 Agent 部署、账号权限与数据服务
+title: "[服务请求] "
+labels:
+  - 服务请求
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        这个仓库是**公开**的。请在下面只描述"要做什么"，不要写内网 IP、主机名、
+        tailnet 域名、账号口令、私有仓库地址或任何凭据——写到的位置在 Issue 里
+        是删不干净的（它会被 fork、被搜索引擎缓存、出现在通知邮件里）。
+        需要给具体地址时，用 `<内网IP>` `<服务器>` `<设备名>` `<域名>` 这样的占位符。
+
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: 请求类型
+      description: 选最接近的一项；跨类型就挑主要的那项，细节写在需求描述里。
+      options:
+        - 服务器与算力
+        - 网络与设备互联
+        - Agent 平台与工具链
+        - ComfyUI 与生成式工作流
+        - 边缘设备 Agent 部署
+        - 账号权限与数据服务
+    validations:
+      required: true
+
+  - type: input
+    id: requester
+    attributes:
+      label: 申请人
+      description: 写你的名字或 GitHub 用户名，方便对人对事。
+      placeholder: 例如：张三 / @zhangsan
+    validations:
+      required: true
+
+  - type: input
+    id: project
+    attributes:
+      label: 所属项目或课程
+      description: 这件事挂在哪门课、哪个项目上；如果暂时没有归属，写"暂无"。
+      placeholder: 例如：第02课-容器基础 / 设备与 Agent 统一管理
+    validations:
+      required: true
+
+  - type: input
+    id: expected_time
+    attributes:
+      label: 期望完成时间
+      description: 写个大致日期就行，方便安排优先级。
+      placeholder: 例如：2026-11-01 前
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: 需求描述
+      description: 想做什么、做到什么程度、为什么需要它。写清"能验收的样子"，比写一堆技术名词更有用。
+      placeholder: |
+        我要做的事：
+        需要什么支持：
+        做到什么程度算完成：
+    validations:
+      required: true
+
+  - type: textarea
+    id: assets
+    attributes:
+      label: 涉及设备或系统
+      description: ⚠️ 不要填内网 IP、主机名、tailnet 域名、账号和口令。用"实验室机房的一台 GPU 服务器"这样的说法即可。
+      placeholder: 例如：实验室机房的一台 GPU 服务器 / 部门那台常开的边缘盒子
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: 紧急程度
+      options:
+        - 本周内
+        - 两周内
+        - 不急，可排期
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: 我已知晓的约束
+      options:
+        - label: 这个仓库是公开的，我不会在这里提交内网 IP、主机名、域名和任何凭据（用占位符代替）
+          required: true
+        - label: 涉及实验室资产的申请，我已经取得负责老师 / 负责人的同意
+          required: true
+        - label: 事情办完之后，我会把做法回填成文档（技术模块 / 技术经验 / 项目实践），而不只留在聊天记录里
+          required: true

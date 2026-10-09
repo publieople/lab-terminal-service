@@ -1,0 +1,158 @@
+# MkDocs Material 站点配置。
+#
+# 渲染入口之一。本仓库同时备了另外两个入口：
+#   - GitBook：.gitbook.yaml + SUMMARY.md
+#   - LLM wiki：SCHEMA.md + raw/
+# 三者内容一致、互不依赖；平台定案后只留一个即可。
+#
+# 本地预览：.\.venv\Scripts\mkdocs serve
+# 严格构建：.\.venv\Scripts\mkdocs build --strict   （CI 用的就是这条）
+
+site_name: 终端服务部 · 技术知识库
+site_description: 实验室终端服务部的文档库——服务器、网络、Agent 平台、生成式工作流与边缘设备
+site_author: 实验室终端服务部
+# site_url 用于生成 canonical 链接与 sitemap。Pages 上线后就是下面这个地址。
+site_url: https://publieople.github.io/lab-terminal-service/
+copyright: 实验室终端服务部 · 采用 CC BY-SA 4.0 许可（待实验室确认）
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到浅色模式
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+  icon:
+    repo: fontawesome/brands/github
+
+# 中文搜索：
+#   mkdocs-material >= 9.6 内置 CJK 分词，lang 里带 zh 就会自动启用。
+#   —— 千万不要设置 separator / 自定义搜索分词，那会关掉内置 CJK 分段器，
+#      中文搜索结果会退化成整句匹配。requirements-docs.txt 里已锁 >=9.6。
+#   —— 也不要加 min_search_length 之类"优化"开关：它不属于 search 插件的受支持选项，
+#      `--strict` 会直接判成配置警告并中止构建（本项目实测过）。
+#      搜索噪音要靠把标题写具体来治，不靠改搜索配置。
+plugins:
+  - search:
+      lang:
+        - zh
+        - en
+
+# 链接与锚点校验。
+#   links.anchors 的默认值是 info（只在日志里提一句，不影响构建），
+#   于是"标题改了、指向它的锚点链接没跟着改"可以一路混到线上。
+#   这里提到 warn，配合 mkdocs build --strict 就是一道会阻断合并的门。
+#   —— 改了标题就顺手改指向它的链接，别让锚点悄悄腐烂。
+validation:
+  links:
+    anchors: warn
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  # toc.slugify 是中文站点必须显式设置的一项，不是可选优化：
+  #   python-markdown 的 toc 扩展默认 slugify 会先 encode('ascii','ignore')，
+  #   把所有汉字直接丢掉，于是「## 三、组织与分工」得到的是 `_2` 这种
+  #   按出现顺序编号的兜底锚点——不可读、且插一节就整体错位。
+  #   换成 pymdownx 的 unicode slugify 后，锚点就是 `三组织与分工`。
+  #   **并入主书时主书也必须设这一项**，否则本章的锚点链接在主书里全部失效。
+  - toc:
+      permalink: true
+      permalink_title: 复制本节链接
+      toc_depth: 3
+      slugify: !!python/object/apply:pymdownx.slugs.slugify {kwds: {case: lower}}
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/publieople/lab-terminal-service
+      name: 本仓库
+
+extra_css:
+  - assets/extra.css
+
+nav:
+  - 首页: index.md
+  - 终端服务部:
+      - 部门介绍: 部门/终端服务部/README.md
+      - 职责与服务目录: 部门/终端服务部/职责与服务目录.md
+      - 基础知识: 部门/终端服务部/基础知识/README.md
+      - 技术模块:
+          - 模块总览: 部门/终端服务部/技术模块/README.md
+          - Linux 服务器运维: 部门/终端服务部/技术模块/Linux服务器运维.md
+          - 容器与编排: 部门/终端服务部/技术模块/容器与编排.md
+          - Tailscale 组网: 部门/终端服务部/技术模块/Tailscale组网.md
+          - 反向代理与 HTTPS: 部门/终端服务部/技术模块/反向代理与HTTPS.md
+          - GPU 与 CUDA 环境: 部门/终端服务部/技术模块/GPU与CUDA环境.md
+          - ComfyUI 部署: 部门/终端服务部/技术模块/ComfyUI部署.md
+          - Agent 平台部署: 部门/终端服务部/技术模块/Agent平台部署.md
+          - 监控与备份: 部门/终端服务部/技术模块/监控与备份.md
+      - 学习课程: 部门/终端服务部/学习课程/README.md
+      - 项目实践:
+          - 项目总览: 部门/终端服务部/项目实践/README.md
+          - 设备与 Agent 统一管理: 部门/终端服务部/项目实践/设备与Agent统一管理.md
+      - 技术经验:
+          - 经验总览: 部门/终端服务部/技术经验/README.md
+          - 服务进程脱离任务托管: 部门/终端服务部/技术经验/服务进程脱离任务托管.md
+          - 双启动器竞争导致服务卡死: 部门/终端服务部/技术经验/双启动器竞争导致服务卡死.md
+          - 端口占用导致同域名本机访问 404: 部门/终端服务部/技术经验/端口占用导致同域名本机访问404.md
+      - 历史与交接: 部门/终端服务部/历史与交接/README.md
+      - 待补事实: 部门/终端服务部/待补事实.md
+  - 写作规范: 规范/文档写入规范.md

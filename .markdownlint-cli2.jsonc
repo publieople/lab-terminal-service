@@ -1,0 +1,38 @@
+{
+  // markdownlint 配置
+  // 中文技术文档的写作习惯与 markdownlint 默认规则冲突较多，这里只保留真正有价值的规则。
+  "config": {
+    "default": true,
+
+    // 中文段落不按 80 列断行，行长度规则毫无意义
+    "MD013": false,
+    // 允许内联 HTML（折叠块、图片尺寸控制、锚点）
+    "MD033": false,
+    // 允许文件不以一级标题开头（front-matter 之后常直接进小节）
+    "MD041": false,
+    // 中文标点不需要句号后两个空格
+    "MD029": { "style": "ordered" },
+    // 表格列宽对齐不强制，中文宽度算不准
+    "MD055": false,
+    "MD056": false,
+    // 允许重复标题（不同章节下同名小节很常见）
+    "MD024": { "siblings_only": true },
+    // 代码块语言必须标
+    "MD040": true,
+    // 行尾空格
+    "MD009": { "br_spaces": 2, "list_item_empty_lines": false },
+    // 允许 front-matter
+    "MD003": { "style": "atx" }
+  },
+  "globs": [
+    "docs/**/*.md",
+    "_templates/**/*.md",
+    "*.md"
+  ],
+  "ignores": [
+    "site/**",
+    "node_modules/**",
+    ".venv/**",
+    "docs/规范/文档写入规范.md" // 外部导入件，保持原样，不做 lint 改动
+  ]
+}

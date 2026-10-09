@@ -1,0 +1,126 @@
+# 文档 CI —— 四道内容门 + 一道构建门，任何一道不过就阻断合并
+#
+# 门 1 markdownlint-cli2   中文排版（MD003/MD009/MD047 这些最常见的退回原因都在这）
+# 门 2 check-frontmatter   front-matter 8 字段 + 按 type 检查正文必填章节
+# 门 3 gitleaks + check-secrets  凭据、内网 IP、tailnet 域名等敏感信息
+# 门 4 lychee              链接检查
+# 门 5 mkdocs --strict     真正构建一遍：警告即失败，等同于本地的 .\.venv\Scripts\mkdocs build --strict
+#
+# 本地先把这五道门跑一遍再提 PR，见 CONTRIBUTING.md §2 和 .github/PULL_REQUEST_TEMPLATE.md。
+
+name: 文档 CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  markdownlint:
+    name: 门 1 · 中文排版（markdownlint-cli2）
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      # 配置直接读仓库根的 .markdownlint-cli2.jsonc——里面已经写好了 globs 和 ignores，
+      # 所以这里不再另外传 globs，避免"CI 扫的集合"和"本地扫的集合"不一致。
+      - name: 跑 markdownlint-cli2
+        uses: DavidAnson/markdownlint-cli2-action@v17
+        with:
+          config: .markdownlint-cli2.jsonc
+
+  frontmatter:
+    name: 门 2 · front-matter 与必填章节（check-frontmatter.mjs）
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 校验 front-matter 与正文必填章节
+        run: node scripts/check-frontmatter.mjs
+
+  secrets:
+    name: 门 3 · 敏感信息（gitleaks + check-secrets.mjs）
+    runs-on: ubuntu-latest
+    steps:
+      # fetch-depth: 0 —— gitleaks 要看历史提交，浅克隆会漏掉早先提交里混进来的凭据。
+      - name: 检出仓库（含全部历史）
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 准备 Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # gitleaks-action 在 PR 场景下必须拿到 GITHUB_TOKEN，否则直接失败。
+      - name: gitleaks 扫描
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 这一层是为了让贡献者在本地也能跑同一套规则（gitleaks 装在本地比较麻烦）。
+      # 它只是正则兜底，扫不出"实验室 433 房间的那台服务器"这类信息，人工 Review 仍不能省。
+      - name: 兜底正则扫描（内网地址与凭据）
+        run: node scripts/check-secrets.mjs
+
+  links:
+    name: 门 4 · 链接检查（lychee）
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      # 关于 --exclude 'publieople\.github\.io'：
+      #   站点上线前，指向自己站点的绝对地址一定是打不开的，这属于"上线前必失败项"。
+      #   这里选择**只**放过这个域名，而不是全站 --accept 4xx——后者会把外链的 404
+      #   一起放过，等于把链接检查这道门废掉。等站点上线后，删掉这一行即可。
+      # --accept 200,206,429：429（被限流）不该当成断链，GitHub 对匿名请求挺容易限流。
+      - name: 跑 lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --accept 200,206,429
+            --exclude 'publieople\.github\.io'
+            --exclude-path site
+            --exclude-path .venv
+            'docs/**/*.md'
+            '*.md'
+          fail: true
+
+  build:
+    name: 门 5 · 构建（mkdocs build --strict）
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+
+      - name: 安装文档依赖
+        run: pip install -r requirements-docs.txt
+
+      # --strict：把 mkdocs 的警告（断链、nav 指向不存在的页面、未列入 nav 的页面）当错误。
+      # 本地用 .\.venv\Scripts\mkdocs build --strict，效果一致。
+      - name: 严格模式构建
+        run: mkdocs build --strict

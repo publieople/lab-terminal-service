@@ -1,0 +1,12 @@
+# GitBook Git Sync 渲染入口
+#
+# 平台选型尚未最终确定。若实验室主书选用 GitBook，在 GitBook 里连接本仓库即可，
+# 内容不需要做任何改动 —— 内容层是纯 Markdown，渲染器只是配置。
+#
+# 首次连通后需要按 GitBook 当时的实际要求复核一遍（尤其 SUMMARY.md 的路径写法）。
+
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md

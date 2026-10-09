@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "description": "front-matter 与必填章节的机器可读校验规则。字段与枚举口径来自 SCHEMA.md §3，章节标题逐字来自 SCHEMA.md §4。",
+  "schemaDoc": "../SCHEMA.md",
+  "checker": "../scripts/check-frontmatter.mjs",
+
+  "enums": {
+    "type": ["站点首页", "部门介绍", "基础知识", "技术模块", "学习课程", "项目实践", "技术经验", "历史与交接", "规范"],
+    "状态": ["草稿", "可用", "待修订"],
+    "可见性": ["公开", "内部"]
+  },
+
+  "fields": {
+    "title": { "required": true, "type": "string", "description": "与文件主题一致" },
+    "type": { "required": true, "type": "string", "enum": "type", "description": "决定该文件需要哪些必填章节" },
+    "部门": { "required": true, "type": "string", "enum": ["终端服务部"], "description": "部门名，与目录路径一致" },
+    "维护人": { "required": true, "type": "string", "description": "GitHub 用户名，可多个，逗号分隔；这是最后修改负责人" },
+    "更新": { "required": true, "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$", "description": "最后一次实质性修改日期，YYYY-MM-DD" },
+    "状态": { "required": true, "type": "string", "enum": "状态" },
+    "可见性": { "required": true, "type": "string", "enum": "可见性" },
+    "tags": { "required": false, "type": "array", "items": "string", "description": "选填，字符串数组" }
+  },
+
+  "requiredFields": ["title", "type", "部门", "维护人", "更新", "状态", "可见性"],
+  "optionalFields": ["tags"],
+
+  "rules": {
+    "files": "docs/**/*.md",
+    "comment": "docs/ 下每个 .md 都必须以 front-matter 开头，无例外；逐条规则对所有文件生效。",
+    "exemptFields": [],
+    "unknownFields": "warn",
+    "headingPolicy": "标题必须逐字出现；可以用任何层级的 ## 标题；不适用的小节保留标题并写「不适用」"
+  },
+
+  "rulesByPath": [
+    {
+      "match": "docs/**/规范/**/*.md",
+      "comment": "外部导入件，front-matter 仍必填，但不校验正文章节",
+      "requiredSections": []
+    }
+  ],
+
+  "sections": {
+    "comment": "按 type 取必填章节标题；标题必须逐字出现在 #/##/### 里。刻意与 types[*].requiredSections 保持同一份内容。",
+    "站点首页": [],
+    "部门介绍": [],
+    "基础知识": [],
+    "技术模块": ["一、技术是什么", "二、为什么使用", "三、工作原理", "四、使用环境", "五、基本使用", "六、实际应用", "七、常见问题", "八、延伸方向"],
+    "学习课程": ["一、课程定位", "二、面向对象", "三、前置知识", "四、学习目标", "五、知识模块", "六、实践内容", "七、项目衔接"],
+    "项目实践": ["一、项目概述", "二、项目目标", "三、技术路线", "四、开发环境", "五、硬件环境", "六、核心代码", "七、项目实现", "八、复现步骤", "九、项目成果", "十、已知问题", "十一、后续方向"],
+    "技术经验": ["一、现象", "二、环境", "三、原因", "四、解决方案", "五、验证", "六、经验"],
+    "历史与交接": [],
+    "规范": []
+  },
+
+  "skipSections": [
+    "docs/规范/文档写入规范.md",
+    "docs/部门/*/技术模块/README.md",
+    "docs/部门/*/学习课程/README.md",
+    "docs/部门/*/项目实践/README.md",
+    "docs/部门/*/技术经验/README.md",
+    "docs/部门/*/基础知识/README.md",
+    "docs/部门/*/历史与交接/README.md",
+    "docs/部门/*/README.md",
+    "docs/部门/*/技术模块/硬件/*.md",
+    "docs/部门/*/历史与交接/*复盘.md"
+  ],
+  "skipSectionsComment": "只校 front-matter、不校正文章节的文件。`*` 匹配任意一段路径（不跨 `/`）。每一类的 README.md 是该类的索引页，结构是「总览表 + 阅读顺序」，不套该类正文的必填章节；它们的 type 仍取所属类别，以便索引页被正确归类。末尾两条是**形状本身不同**的页面：硬件资料页与项目复盘页在 SCHEMA.md §3.1 的 9 个 type 里没有独立取值，scripts/new.mjs 按就近归并写成 `技术模块` / `项目实践`（见该脚本 TYPES 常量的注释），但它们的章节按 SCHEMA.md §4.3 / §4.1 之外的自定义小节奏（sectionSchemas.硬件资料 / sectionSchemas.项目复盘）。若不给这两类路径豁免，每一篇都会被误报为「缺少必填章节」——豁免的是**章节**，front-matter 的 8 个字段照校不误。",
+
+  "types": {
+    "站点首页": {
+      "dir": "docs/index.md",
+      "requiredSections": []
+    },
+    "部门介绍": {
+      "dir": "部门/<名>/README.md、职责与服务目录.md、待补事实.md",
+      "requiredSections": [],
+      "note": "自由结构；README.md 另外遵守 9 字段约定，见 sectionSchemas.部门介绍9字段"
+    },
+    "基础知识": {
+      "dir": "基础知识/",
+      "requiredSections": []
+    },
+    "技术模块": {
+      "dir": "技术模块/",
+      "template": "_templates/技术模块模板.md",
+      "schemaSection": "§4.3",
+      "requiredSections": ["一、技术是什么", "二、为什么使用", "三、工作原理", "四、使用环境", "五、基本使用", "六、实际应用", "七、常见问题", "八、延伸方向"]
+    },
+    "学习课程": {
+      "dir": "学习课程/",
+      "template": "_templates/课程模板.md",
+      "schemaSection": "§4.2",
+      "requiredSections": ["一、课程定位", "二、面向对象", "三、前置知识", "四、学习目标", "五、知识模块", "六、实践内容", "七、项目衔接"]
+    },
+    "项目实践": {
+      "dir": "项目实践/",
+      "template": "_templates/项目README模板.md",
+      "schemaSection": "§4.1",
+      "requiredSections": ["一、项目概述", "二、项目目标", "三、技术路线", "四、开发环境", "五、硬件环境", "六、核心代码", "七、项目实现", "八、复现步骤", "九、项目成果", "十、已知问题", "十一、后续方向"],
+      "requiredSubtopics": ["准备什么", "装什么", "配什么", "跑什么", "预期结果", "如何判定成功"]
+    },
+    "技术经验": {
+      "dir": "技术经验/",
+      "template": "_templates/踩坑记录模板.md",
+      "schemaSection": "§4.4",
+      "requiredSections": ["一、现象", "二、环境", "三、原因", "四、解决方案", "五、验证", "六、经验"]
+    },
+    "历史与交接": {
+      "dir": "历史与交接/",
+      "template": "_templates/历史与交接模板.md",
+      "requiredSections": []
+    },
+    "规范": {
+      "dir": "规范/",
+      "requiredSections": []
+    }
+  },
+
+  "sectionSchemas": {
+    "部门介绍9字段": {
+      "appliesTo": "docs/**/部门/*/README.md",
+      "template": "_templates/部门介绍模板.md",
+      "sections": ["①一句话定位", "②职责范围", "③组织与分工", "④服务对象与对接方式", "⑤现有资源与能力清单", "⑥本学年工作重点", "⑦与其它部门协作关系", "⑧新人上手路径", "⑨联系方式与值班"],
+      "enforced": false
+    },
+    "硬件资料": {
+      "template": "_templates/硬件资料模板.md",
+      "sections": ["设备名称", "用途", "规格参数", "接口与接线", "驱动与固件", "常见故障", "维护记录", "存放位置"],
+      "enforced": false
+    },
+    "项目复盘": {
+      "template": "_templates/项目复盘模板.md",
+      "sections": ["做对了什么", "做错了什么", "为什么失败", "哪些经验值得保留", "下一次怎么做"],
+      "enforced": false
+    },
+    "历史与交接": {
+      "template": "_templates/历史与交接模板.md",
+      "sections": ["人员变动记录", "设备变动记录", "系统迁移记录"],
+      "enforced": false
+    }
+  },
+
+  "templates": {
+    "项目实践": { "file": "_templates/项目README模板.md", "target": "docs/部门/<部门>/项目实践/<项目名>.md", "requiredSectionCount": 11 },
+    "学习课程": { "file": "_templates/课程模板.md", "target": "docs/部门/<部门>/学习课程/<课程名>.md", "requiredSectionCount": 7 },
+    "技术模块": { "file": "_templates/技术模块模板.md", "target": "docs/部门/<部门>/技术模块/<技术名>.md", "requiredSectionCount": 8 },
+    "技术经验": { "file": "_templates/踩坑记录模板.md", "target": "docs/部门/<部门>/技术经验/<问题名>.md", "requiredSectionCount": 6 },
+    "硬件资料": { "file": "_templates/硬件资料模板.md", "target": "docs/部门/<部门>/技术模块/硬件/<设备名>.md", "requiredSectionCount": 8 },
+    "项目复盘": { "file": "_templates/项目复盘模板.md", "target": "docs/部门/<部门>/历史与交接/<项目名>复盘.md", "requiredSectionCount": 5 },
+    "部门介绍": { "file": "_templates/部门介绍模板.md", "target": "docs/部门/<部门>/README.md", "requiredSectionCount": 9 },
+    "历史与交接": { "file": "_templates/历史与交接模板.md", "target": "docs/部门/<部门>/历史与交接/<主题>.md", "requiredSectionCount": 3 }
+  },
+
+  "checks": [
+    { "id": "frontmatter-present", "level": "error", "rule": "所有 docs/**/*.md 必须以 --- 开头并以 --- 结束 front-matter 块" },
+    { "id": "required-fields", "level": "error", "rule": "requiredFields 中每个字段都必须存在且非空" },
+    { "id": "enum-values", "level": "error", "rule": "type / 状态 / 可见性 取值必须落在 enums 中" },
+    { "id": "date-format", "level": "error", "rule": "更新 必须匹配 ^\\d{4}-\\d{2}-\\d{2}$" },
+    { "id": "required-sections", "level": "error", "rule": "按 type 取 types[type].requiredSections，逐个在正文中查找同名标题" },
+    { "id": "reproduce-subtopics", "level": "warn", "rule": "type=项目实践 时，§八 复现步骤 下应覆盖 requiredSubtopics 六项" },
+    { "id": "stale", "level": "warn", "rule": "更新 距今天超过 12 个月 → 列入索引页「待复核」" },
+    { "id": "internal-visibility", "level": "info", "rule": "可见性=内部 时，公开库只放标题 + 一句说明 + 私有库路径，正文为空" }
+  ],
+
+  "hardRules": [
+    "编码 UTF-8，换行 LF，文件末尾必须有换行，行尾不留空格",
+    "中文与英文/数字之间加空格",
+    "标题用 ATX 形式（## 一、项目概述），不用 Setext 下划线式",
+    "库内互链用相对路径，不用绝对 URL",
+    "不写内网 IP / 真实主机名 / 真实域名 / 真实用户名 / 凭据，用 <内网IP> <设备名> <域名> <用户名> 占位",
+    "不写空话套话句式：禁用清单的权威位置是 SCHEMA.md §2 与 CONTRIBUTING.md §2.1，以那份为准；本文件刻意不复述那几个短语，避免本文件自己被文风检查脚本误报。"
+  ],
+  "hardRulesComment": "数组里每一项都是**规则**，不是给读者看的句子。"
+}

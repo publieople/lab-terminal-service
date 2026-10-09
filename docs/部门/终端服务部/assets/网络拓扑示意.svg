@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  组网拓扑示意（脱敏版）
+  只画设备角色与连接关系，不含真实主机名、地址、网段、账号。
+  真实拓扑在内部库的 网络拓扑.md。
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" font-family="system-ui, 'Segoe UI', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#5a6b8c"/>
+    </marker>
+    <style>
+      .box   { fill:#ffffff; stroke:#5a6b8c; stroke-width:2; rx:10; }
+      .lab   { fill:none; stroke:#9aa7bf; stroke-width:2; stroke-dasharray:8 6; rx:14; }
+      .cloud { fill:#eef2fb; stroke:#4a5b7c; stroke-width:2; }
+      .t      { font-size:16px; fill:#1f2937; text-anchor:middle; dominant-baseline:middle; }
+      .ts     { font-size:13px; fill:#5a6b8c; text-anchor:middle; dominant-baseline:middle; }
+      .ttl    { font-size:15px; fill:#4a5b7c; font-weight:600; text-anchor:middle; }
+      .line   { stroke:#5a6b8c; stroke-width:2; fill:none; marker-end:url(#arrow); }
+      .plain  { stroke:#9aa7bf; stroke-width:2; fill:none; }
+    </style>
+  </defs>
+
+  <text class="ttl" x="480" y="30">组网拓扑示意（已脱敏）</text>
+
+  <!-- tailnet 云 -->
+  <ellipse class="cloud" cx="480" cy="150" rx="230" ry="62"/>
+  <text class="t" x="480" y="138">虚拟内网（tailnet）</text>
+  <text class="ts" x="480" y="164">加密的点对点连接 · 不暴露公网端口</text>
+
+  <!-- 上排设备 -->
+  <rect class="box" x="60"  y="70"  width="150" height="56"/>
+  <text class="t" x="135" y="92">笔记本</text>
+  <text class="ts" x="135" y="112">任意网络</text>
+
+  <rect class="box" x="750" y="70"  width="150" height="56"/>
+  <text class="t" x="825" y="92">移动设备</text>
+  <text class="ts" x="825" y="112">需开"始终开启 VPN"</text>
+
+  <!-- 下排：实验室侧 -->
+  <rect class="lab" x="40" y="260" width="880" height="270"/>
+  <text class="ts" x="140" y="288" text-anchor="start" font-weight="600">实验室内网（示意）</text>
+
+  <rect class="box" x="80"  y="320" width="170" height="60"/>
+  <text class="t" x="165" y="342">子网路由器</text>
+  <text class="ts" x="165" y="364">装了组网客户端</text>
+
+  <rect class="box" x="320" y="320" width="170" height="60"/>
+  <text class="t" x="405" y="342">GPU 服务器</text>
+  <text class="ts" x="405" y="364">训练 / 推理</text>
+
+  <rect class="box" x="560" y="320" width="170" height="60"/>
+  <text class="t" x="645" y="342">通用服务器</text>
+  <text class="ts" x="645" y="364">常驻服务 / 存储</text>
+
+  <rect class="box" x="80"  y="430" width="170" height="60"/>
+  <text class="t" x="165" y="452">边缘设备</text>
+  <text class="ts" x="165" y="474">现场推理</text>
+
+  <rect class="box" x="320" y="430" width="170" height="60"/>
+  <text class="t" x="405" y="452">无客户端设备</text>
+  <text class="ts" x="405" y="474">交换机 / 打印机</text>
+
+  <rect class="box" x="560" y="430" width="170" height="60"/>
+  <text class="t" x="645" y="452">内部 Web 服务</text>
+  <text class="ts" x="645" y="474">仅组网内可达</text>
+
+  <!-- 连线：云端到设备 -->
+  <path class="line" d="M300 200 C240 240 180 260 160 314"/>
+  <path class="line" d="M660 200 C720 240 790 260 820 130"/>
+  <path class="line" d="M480 212 L480 314"/>
+
+  <!-- 内网连线 -->
+  <path class="plain" d="M250 350 L320 350"/>
+  <path class="plain" d="M490 350 L560 350"/>
+  <path class="plain" d="M165 380 L165 430"/>
+  <path class="plain" d="M250 460 L320 460"/>
+  <path class="plain" d="M490 460 L560 460"/>
+  <path class="plain" d="M645 380 L645 430"/>
+
+  <!-- 说明 -->
+  <text class="ts" x="480" y="256">子网路由器把整段内网通告给组网设备 —— 通报表后还要在管理后台批准，否则静默不生效</text>
+</svg>

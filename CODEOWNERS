@@ -1,0 +1,35 @@
+# CODEOWNERS
+#
+# 代码所有者：对本仓库内容负责、Review 由谁做。
+# 语法 `<路径模式> <@用户 或 @组织/团队>`，后面的规则覆盖前面的。
+#
+# GitHub 要求 CODEOWNERS 里的用户对仓库有写权限。
+
+# 兜底：全仓库
+*                               @publieople
+
+# 部门章（要并入实验室主书的那一棵子树）由终端服务部负责
+/docs/部门/终端服务部/            @publieople
+
+# 技术模块与项目实践最容易过时，单独标出，提醒 Review 时看有效期
+/docs/部门/终端服务部/技术模块/    @publieople
+/docs/部门/终端服务部/项目实践/    @publieople
+
+# 规范与机器可读契约：改动会影响主书和 LLM wiki，改前先在 Issue 里讨论
+/SCHEMA.md                       @publieople
+/并入主书说明.md                    @publieople
+/docs/规范/                       @publieople
+/_schema/                        @publieople
+/nav.片段.yml                      @publieople
+
+# CI 与构建配置：坏了会让所有 PR 卡住
+/.github/                        @publieople
+/mkdocs.yml                      @publieople
+/.gitbook.yaml                   @publieople
+/requirements-docs.txt           @publieople
+/scripts/                        @publieople
+
+# 安全底线：脱敏规则与素材区
+/.gitleaks.toml                  @publieople
+/assets/                         @publieople
+/raw/                            @publieople

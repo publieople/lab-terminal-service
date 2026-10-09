@@ -1,0 +1,80 @@
+name: 文档纠错
+description: 报告某一页内容过时、步骤跑不通、链接失效、描述不清，或疑似泄露了内部信息
+title: "[文档纠错] "
+
+body:
+  - type: dropdown
+    id: page
+    attributes:
+      label: 出问题的页面路径
+      description: 选最接近的一页；页面上没有列出来的，选最后一项并在现象描述里写清路径。
+      options:
+        - 部门/终端服务部/README.md（部门介绍）
+        - 部门/终端服务部/职责与服务目录.md
+        - 部门/终端服务部/待补事实.md
+        - 部门/终端服务部/基础知识/README.md
+        - 部门/终端服务部/技术模块/README.md（模块总览）
+        - 部门/终端服务部/技术模块/Linux服务器运维.md
+        - 部门/终端服务部/技术模块/容器与编排.md
+        - 部门/终端服务部/技术模块/Tailscale组网.md
+        - 部门/终端服务部/技术模块/反向代理与HTTPS.md
+        - 部门/终端服务部/技术模块/GPU与CUDA环境.md
+        - 部门/终端服务部/技术模块/ComfyUI部署.md
+        - 部门/终端服务部/技术模块/Agent平台部署.md
+        - 部门/终端服务部/技术模块/监控与备份.md
+        - 部门/终端服务部/学习课程/README.md
+        - 部门/终端服务部/项目实践/README.md（项目总览）
+        - 部门/终端服务部/项目实践/设备与Agent统一管理.md
+        - 部门/终端服务部/技术经验/README.md（经验总览）
+        - 部门/终端服务部/技术经验/服务进程脱离任务托管.md
+        - 部门/终端服务部/技术经验/双启动器竞争导致服务卡死.md
+        - 部门/终端服务部/技术经验/端口占用导致同域名本机访问404.md
+        - 部门/终端服务部/历史与交接/README.md
+        - 规范/文档写入规范.md
+        - 其他（路径写在下面的现象描述里）
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 问题类型
+      options:
+        - 内容过时
+        - 步骤跑不通
+        - 链接失效
+        - 描述不清
+        - 疑似泄露内部信息
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: symptom
+    attributes:
+      label: 现象描述
+      description: |
+        你看到的是哪一句/哪一段、你实际做了什么、期望是什么、实际发生了什么。
+        如果选了"疑似泄露内部信息"：**不要在 Issue 里贴出具体的内网地址、主机名或凭据本身**，
+        只说明大致位置（比如"技术模块某页的第五节有一行像是真实地址"），
+        维护人会私下来找你确认。贴出来等于又一次泄露。
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: 建议改法
+      description: 可选。你希望它改成什么样？贴一段你改好的文字更好。
+
+  - type: dropdown
+    id: will_pr
+    attributes:
+      label: 是否愿意自己提 PR
+      description: 愿意的话，改法和提交要求见 CONTRIBUTING.md；不确定也没关系。
+      options:
+        - 愿意，我自己提 PR
+        - 愿意，但需要人带一下
+        - 这次先请维护人改
+    validations:
+      required: true

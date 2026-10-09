@@ -1,0 +1,33 @@
+/* 站点级样式补充。属于本仓库的站点外观，不随部门章一起并入主书。 */
+
+/* 表格在窄屏下允许横向滚动，避免中文长内容把布局撑破 */
+.md-typeset__table {
+  overflow-x: auto;
+}
+
+/* 表格首列窄一点，中文表格更需要 */
+.md-typeset table:not([class]) th:first-child,
+.md-typeset table:not([class]) td:first-child {
+  white-space: nowrap;
+}
+
+/* 引用块（本仓库大量使用 > 写"为什么"）加强可读性 */
+.md-typeset blockquote {
+  border-left-width: 4px;
+}
+
+/* 代码块里的中文注释字号略小，与命令区分 */
+.md-typeset code {
+  font-variant-ligatures: none;
+}
+
+/* mermaid 图居中并允许横向滚动 */
+.md-typeset .mermaid {
+  text-align: center;
+  overflow-x: auto;
+}
+
+/* 任务列表复选框与文字对齐 */
+.md-typeset .task-list-indicator::before {
+  top: 0.15em;
+}

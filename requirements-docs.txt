@@ -1,0 +1,3 @@
+# 站点构建依赖
+# 注意：mkdocs-material 自 9.6 起内置中文（CJK）搜索支持，不要降级。
+mkdocs-material>=9.6
