@@ -72,6 +72,12 @@ npx markdownlint-cli2 "docs/**/*.md"
 .\.venv\Scripts\mkdocs build --strict
 ```
 
+③ 在有些机器上跑不起来：网络中间有 HTTPS 拦截（企业代理、杀毒软件的内容检查）时，
+`npm` 会报 `DEPTH_ZERO_SELF_SIGNED_CERT`，加 `--use-system-ca` 也不一定救得回来。
+这种情况**不必卡在这里**——①②④ 照跑，Markdown 格式交给 CI 那道门；
+在 PR 里注明一句"本机 npm 不可用，③ 由 CI 覆盖"就行，Reviewer 不会因此退回。
+CI 里这五道门与上面一一对应（`npx markdownlint-cli2` 对应门 1）。
+
 ### 第四步：提 PR（11–14 分钟）
 
 ```powershell

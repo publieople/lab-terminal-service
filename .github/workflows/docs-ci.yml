@@ -87,9 +87,11 @@ jobs:
         uses: actions/checkout@v4
 
       # 关于 --exclude 'publieople\.github\.io'：
-      #   站点上线前，指向自己站点的绝对地址一定是打不开的，这属于"上线前必失败项"。
-      #   这里选择**只**放过这个域名，而不是全站 --accept 4xx——后者会把外链的 404
-      #   一起放过，等于把链接检查这道门废掉。等站点上线后，删掉这一行即可。
+      #   站点上线前，指向自己站点的绝对地址一定是打不开的，属"上线前必失败项"，
+      #   当时选择**只**放过这个域名，而不是全站 --accept 4xx——后者会把外链的 404
+      #   一起放过，等于把链接检查这道门废掉。
+      #   站点现已上线（https://publieople.github.io/lab-terminal-service/），
+      #   这条排除已删除：README 里指向本仓库站点的绝对地址现在也必须真的能打开。
       # --accept 200,206,429：429（被限流）不该当成断链，GitHub 对匿名请求挺容易限流。
       - name: 跑 lychee
         uses: lycheeverse/lychee-action@v2
@@ -97,7 +99,6 @@ jobs:
           args: >-
             --no-progress
             --accept 200,206,429
-            --exclude 'publieople\.github\.io'
             --exclude-path site
             --exclude-path .venv
             'docs/**/*.md'
