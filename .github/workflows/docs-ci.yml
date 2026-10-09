@@ -116,6 +116,9 @@ jobs:
         with:
           python-version: '3.13'
           cache: pip
+          # setup-python 默认找 requirements.txt / pyproject.toml，找不到就直接失败。
+          # 本仓库的依赖文件叫 requirements-docs.txt，必须显式指出来。
+          cache-dependency-path: requirements-docs.txt
 
       - name: 安装文档依赖
         run: pip install -r requirements-docs.txt

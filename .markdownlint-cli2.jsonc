@@ -17,6 +17,11 @@
     "MD056": false,
     // 允许重复标题（不同章节下同名小节很常见）
     "MD024": { "siblings_only": true },
+    // MD025 默认把 front-matter 里的 title: 也当成一个一级标题，
+    // 于是正文里那个 # 标题就成了"文档里的第二个 H1"，全库每个带
+    // front-matter 的页面都会红。本仓库的 front-matter title 就是
+    // 页面标题本身，不是另一级标题，所以关掉这个识别。
+    "MD025": { "level": 1, "front_matter_title": "" },
     // 代码块语言必须标
     "MD040": true,
     // 行尾空格
