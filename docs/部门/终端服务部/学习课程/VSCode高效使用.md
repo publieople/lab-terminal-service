@@ -639,6 +639,11 @@ rm -rf ~/.config/Code/User
 - **官方教程**：[VS Code YouTube 频道](https://www.youtube.com/c/Code)
 - **免费课程**：Microsoft Learn、freeCodeCamp
 
+#### 推荐阅读
+
+- **《第一次使用 VS Code 时你应该知道的一切配置》**（千古壹号）——中文新手向，讲首次配置、快捷键、常用插件、字体与主题，读一遍就能把编辑器弄顺手。[原文](https://github.com/qianguyihao/Web/blob/master/00-%E5%89%8D%E7%AB%AF%E5%B7%A5%E5%85%B7/01-VS%20Code%E7%9A%84%E4%BD%BF%E7%94%A8.md)
+- 这一篇采用 CC BY-NC-SA 4.0（**禁止商业性使用**），与本知识库的 CC BY-SA 4.0 不兼容：**只能链过去读，不要把正文抄进本仓库**；要引用它的内容，请注明作者与原文链接。
+
 ### 最佳实践清单
 
 #### 每日工作流
