@@ -23,15 +23,15 @@
 
 ### 怎么拿到规则正文
 
-按顺序找，前一个能读到就用前一个：
+| 用途 | 来源 |
+| --- | --- |
+| **判定对错的权威** | 上游公开仓库 <https://github.com/op7418/Humanizer-zh> |
+| 日常直接读 | 本仓库快照 `skills/humanizer-zh/SKILL.md`（上游某个提交的逐字副本） |
+| DSH 里图省事 | 本机 OpenViking 副本：用 `skill` 工具加载 `humanizer-zh`，或读 `viking://agent/skills/humanizer-zh/SKILL.md` |
 
-| 顺序 | 来源 | 怎么读 |
-| --- | --- | --- |
-| 1 | OpenViking（权威版本） | 用 DSH 的 `skill` 工具加载 `humanizer-zh`，或直接读 `viking://agent/skills/humanizer-zh/SKILL.md` |
-| 2 | 本仓库快照（离线兜底） | `skills/humanizer-zh/SKILL.md` |
-| 3 | 上游仓库 | <https://github.com/op7418/Humanizer-zh> |
+**权威只有一个：上游公开仓库。** 快照和 OpenViking 里的都是副本，谁和上游不一致就以**上游**为准，并把快照更新到一致，在提交信息里写明对齐到哪个提交。
 
-三处内容不一致时**以 OpenViking 为准**；顺手把 `skills/humanizer-zh/SKILL.md` 的快照更新到一致，并在提交信息里写明。
+OpenViking 是我们自己部署的，读起来方便，但它可能滞后，也可能被人改过——**它不算权威版本，不要拿它当判定依据**。
 
 一处都读不到时，**如实说明"humanizer-zh 的正文没读到"**，不要凭印象编一套规则接着改。
 

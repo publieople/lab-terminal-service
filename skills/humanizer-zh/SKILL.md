@@ -1,12 +1,15 @@
 ---
 name: humanizer-zh
-description: 编辑中文文章、评论和文档中的空话、重复及模板化表达，让文字更自然，同时保留事实、确定程度和作者声音。适用于润色已有文本，不用于判断作者身份或保证通过
-  AI 检测器。
-allowed-tools: Read Write Edit AskUserQuestion
+description: 编辑中文文章、评论和文档中的空话、重复及模板化表达，让文字更自然，同时保留事实、确定程度和作者声音。适用于润色已有文本，不用于判断作者身份或保证通过 AI 检测器。
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - AskUserQuestion
 metadata:
   trigger: 编辑或审阅中文文本，去除模板化表达
   source: 基于 blader/humanizer v3.0.0 和 Humanizer-zh PR 39 的结构修订；参考 hardikpandya/stop-slop
-  revision: '2026-09-23'
+  revision: "2026-09-23"
 ---
 
 # Humanizer-zh
