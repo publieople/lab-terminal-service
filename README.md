@@ -4,7 +4,7 @@
 
 实验室**终端服务部**的部门知识库与站点。内容按《[实验室技术知识库文档写入规范](docs/规范/文档写入规范.md)》组织。
 
-实验室主书（[Xinlanmy/laboratory-knowledge-base](https://github.com/Xinlanmy/laboratory-knowledge-base)）是一本**总目录**：它只登记各部门仓库的链接与元数据，**不复制正文**。我们的正文就留在这里，登记方式见 [并入主书说明.md](并入主书说明.md)。
+实验室主书是 [Xinlanmy/laboratory-knowledge-base](https://github.com/Xinlanmy/laboratory-knowledge-base)：各部门仓库的正文留在各自仓库里，主书登记链接与元数据。登记方式见 [并入主书说明.md](并入主书说明.md)。
 
 > 站点：<https://publieople.github.io/lab-terminal-service/>
 
@@ -105,7 +105,7 @@ python -m venv .venv
 | 凭据（**任何仓库都不存明文**） | ❌ | 只写"在哪、谁管" |
 | 故障复盘 | 脱敏结论版 | 原始日志版 |
 
-公开页面里凡涉及内网细节处，会写成 `内部细节见内部库 <路径>` 的占位，而不是给出真实值。
+公开页面里凡涉及内网细节处，会写成 `内部细节见内部库 <路径>` 的占位。
 
 提交前自检：
 
