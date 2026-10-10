@@ -100,12 +100,17 @@ jobs:
       #   站点现已上线（https://publieople.github.io/lab-terminal-service/），
       #   这条排除已删除：README 里指向本仓库站点的绝对地址现在也必须真的能打开。
       # --accept 200,206,429：429（被限流）不该当成断链，GitHub 对匿名请求挺容易限流。
+      # --exclude '^https?://(www\.)?(stackoverflow\.com|reddit\.com)'：
+      #   这两家对非浏览器客户端一律回 403（反爬），人用浏览器打开是正常的，不算断链。
+      #   **不要**图省事把 403 加进 --accept —— 那会连"真的 403（无权限 / 已下线）"一起放过。
+      #   再加别的这类域名时，请在这里再补一条 --exclude 并写清是哪一家、为什么。
       - name: 跑 lychee
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
             --no-progress
             --accept 200,206,429
+            --exclude '^https?://(www\.)?(stackoverflow\.com|reddit\.com)'
             --exclude-path site
             --exclude-path .venv
             'docs/**/*.md'
