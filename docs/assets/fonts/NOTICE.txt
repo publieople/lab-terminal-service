@@ -1,0 +1,30 @@
+站点自托管字体的来源与授权说明
+================================
+
+本目录下的两个 .woff2 是**子集化后的修改版本**，只包含本站点实际用到的字符，
+用于替换 Material 主题的默认字体栈。它们不是原始字体文件，也不要拿去别处使用。
+
+smiley-sans-h1.woff2
+  来源：得意黑 Smiley Sans — https://github.com/atelier-anchor/smiley-sans
+  版权：Copyright (c) 2022--2024, atelierAnchor <https://atelier-anchor.com/>
+  许可：SIL Open Font License 1.1（见 LICENSE-smiley-sans.txt）
+  用途：站点 h1 标题
+  改动：按 docs/ 下全部 h1 用字做子集；因原字体声明了 Reserved Font Name
+        <Smiley> 与 <得意黑>，按 OFL 要求把修改版本的字体名改为
+        "Terminal Dept Display"
+
+maple-mono-nf-cn-code.woff2
+  来源：Maple Mono NF CN — https://github.com/subframe7536/maple-font
+  版权：Copyright (c) 2022, subframe7536
+  许可：SIL Open Font License 1.1（见 LICENSE-maple-mono.txt）
+  用途：代码块与行内代码
+  改动：按 docs/ 下全部代码块与行内代码的用字做子集；因原字体声明了
+        Reserved Font Name "Maple Mono"，按 OFL 要求把修改版本的字体名改为
+        "Terminal Dept Mono"
+
+重新生成：仓库根目录执行（需要 python 环境里有 fonttools 与 brotli）
+  $env:PYTHON = '.\.venv\Scripts\python.exe'; node scripts\font-subset.mjs
+
+改了标题或代码块之后用字会变，需要重跑一次；否则新字会掉成兜底字体。
+两个文件合计约 210KB，这是自托管中文字体的体积下限——正文字体不做子集，
+继续交给访客的系统字体，理由见 CONTRIBUTING.md。

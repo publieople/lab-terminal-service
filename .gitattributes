@@ -9,6 +9,8 @@
 *.pdf  binary
 *.zip  binary
 *.exe  binary
+*.woff2 binary
+*.ttf  binary
 
 *.ps1  text eol=crlf
 *.cmd  text eol=crlf

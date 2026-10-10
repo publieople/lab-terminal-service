@@ -31,3 +31,42 @@
 .md-typeset .task-list-indicator::before {
   top: 0.15em;
 }
+
+/* ------------------------------------------------------------------
+   自托管字体
+   两个字体的来源、许可、改动说明见 assets/fonts/NOTICE.txt。
+   这里是按用字子集化过的修改版本，字体名已按 OFL 的 Reserved Font Name
+   条款改掉，所以 @font-face 里的名字跟原始字体不一样，别拿原始名去引用。
+   正文不做子集，也不自托管：中文正文字体是 17MB 级别，让访客下载不划算。
+------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Terminal Dept Display";
+  src: url("fonts/smiley-sans-h1.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Terminal Dept Mono";
+  src: url("fonts/maple-mono-nf-cn-code.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 页面大标题用得意黑：它只有一款倾斜字形，只给 h1，h2 以下保持黑体，
+   标题层级才分得开 */
+.md-typeset h1 {
+  font-family: "Terminal Dept Display", "Smiley Sans", "得意黑", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* 代码用等宽字体：命令、路径、报错原文都是它 */
+.md-typeset code,
+.md-typeset pre > code,
+.md-typeset kbd {
+  font-family: "Terminal Dept Mono", "Maple Mono NF CN", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
