@@ -33,8 +33,15 @@ jobs:
 
       # 配置直接读仓库根的 .markdownlint-cli2.jsonc——里面已经写好了 globs 和 ignores，
       # 所以这里不再另外传 globs，避免"CI 扫的集合"和"本地扫的集合"不一致。
+      #
+      # 版本钉到具体 tag，不要写 @v24：这个 action 把 markdownlint-cli2 打进自己的依赖，
+      # 换一个 release 就等于换一套规则。v17 带的是 cli2 0.14.0（没有 MD060），
+      # 而贡献者在本机 `npx markdownlint-cli2` 拿到的是 0.23.x（有 MD060）——
+      # 于是同一个文件"本地红、CI 绿"，两边检查的根本不是同一件事。
+      # v24.2.0 带 cli2 0.23.2，与本地 0.23.x 同一套规则。
+      # 以后升级这里，必须同时在本机跑一次 `npx markdownlint-cli2` 确认两边都绿。
       - name: 跑 markdownlint-cli2
-        uses: DavidAnson/markdownlint-cli2-action@v17
+        uses: DavidAnson/markdownlint-cli2-action@v24.2.0
         with:
           config: .markdownlint-cli2.jsonc
 

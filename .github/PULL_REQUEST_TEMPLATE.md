@@ -60,7 +60,7 @@ CI 会跑同样的检查（见 .github/workflows/docs-ci.yml），红着提交�
 git diff --stat
 node scripts\check-frontmatter.mjs
 node scripts\check-secrets.mjs
-npx markdownlint-cli2 "docs/**/*.md"
+npx markdownlint-cli2
 .\.venv\Scripts\mkdocs build --strict
 ```
 

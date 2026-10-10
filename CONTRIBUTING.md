@@ -65,16 +65,19 @@ node scripts\check-frontmatter.mjs
 # ② 脱敏兜底（自己先扫一遍，别让 CI 或 Review 发现）
 node scripts\check-secrets.mjs
 
-# ③ Markdown 格式
-npx markdownlint-cli2 "docs/**/*.md"
+# ③ Markdown 格式（不要自己传 globs——让脚本读 .markdownlint-cli2.jsonc 里的 globs，
+#    这样本机扫的文件集合和 CI 扫的一定一致）
+npx markdownlint-cli2
 
 # ④ 站点能构建（只在你改了导航或新增了目录时必跑）
 .\.venv\Scripts\mkdocs build --strict
 ```
 
 ③ 在有些机器上跑不起来：网络中间有 HTTPS 拦截（企业代理、杀毒软件的内容检查）时，
-`npm` 会报 `DEPTH_ZERO_SELF_SIGNED_CERT`，加 `--use-system-ca` 也不一定救得回来。
-这种情况**不必卡在这里**——①②④ 照跑，Markdown 格式交给 CI 那道门；
+`npm` 会报 `DEPTH_ZERO_SELF_SIGNED_CERT`，加 `--use-system-ca` 也不一定救得回来——
+因为 Node 不读系统代理设置，请求直接落到拦截者身上了。先给 npm 配一个可用代理再试：
+`npm config set https-proxy http://127.0.0.1:7890`（端口按自己的代理改，同时设 `proxy`）。
+还是不行就**不必卡在这里**——①②④ 照跑，Markdown 格式交给 CI 那道门；
 在 PR 里注明一句"本机 npm 不可用，③ 由 CI 覆盖"就行，Reviewer 不会因此退回。
 CI 里这五道门与上面一一对应（`npx markdownlint-cli2` 对应门 1）。
 
@@ -114,7 +117,7 @@ PR 模板会自动带上一张自检清单，**逐项勾掉**再提交。
 对照下表自查。**公开仓库的东西会被搜索引擎、爬虫、任何陌生人看到。**
 
 | 不能出现 | 改成 |
-|---|---|
+| --- | --- |
 | 内网 IP（`10.x` / `192.168.x` / `172.16–31.x`） | `<内网IP>` 或 `服务器` |
 | 组网 IP（`100.x`） | `<组网IP>` |
 | 真实主机名 | `<设备名>` |
@@ -190,7 +193,7 @@ Review 结论只有三种：**批准** / **提修改意见** / **关闭并说明
 ## 6. 常见退回原因（别踩）
 
 | 现象 | CI 报什么 | 怎么修 |
-|---|---|---|
+| --- | --- | --- |
 | 新文件没有 front-matter | `check-frontmatter.mjs` 报缺字段 | 用 `scripts/new.mjs` 生成，别手建 |
 | 表头写了中文全角括号 | markdownlint MD003/MD009 | 跑一遍 markdownlint 自动看行号 |
 | 文件末尾没有换行 | MD047 | 编辑器开"insert final newline" |
