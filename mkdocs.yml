@@ -9,6 +9,7 @@
 # 严格构建：.\.venv\Scripts\mkdocs build --strict   （CI 用的就是这条）
 
 site_name: 终端服务部 · 技术知识库
+site_description: 上海中侨大学 人工智能学院 具身智能研究所 · 终端服务部的部门技术知识库
 site_description: 实验室终端服务部的文档库——服务器、网络、Agent 平台、生成式工作流与边缘设备
 site_author: 实验室终端服务部
 # site_url 用于生成 canonical 链接与 sitemap。Pages 上线后就是下面这个地址。
