@@ -8,7 +8,7 @@
 
 ## 1. 一句话
 
-整个知识库是**一棵纯 Markdown 目录树 + 每条一个 YAML front-matter**。没有数据库、没有自定义标记、没有需要解析的宏。任何 LLM 用一次 `glob("**/*.md")` 再逐文件读，就能拿到全部语义。
+整个知识库是**一棵纯 Markdown 目录树 + 每条一个 YAML front-matter**，没有数据库、自定义标记或需要解析的宏。任何 LLM 用一次 `glob("**/*.md")` 再逐文件读，就能拿到全部语义。
 
 ---
 
@@ -46,7 +46,7 @@ docs/
 
 ## 3. front-matter 契约
 
-**`docs/` 下每一个 `.md` 文件都必须以 front-matter 开头。** 没有例外。
+**`docs/` 下每一个 `.md` 文件都必须以 front-matter 开头。** 没有例外——§4.0 的豁免只免正文章节，不免 front-matter。
 
 ```yaml
 ---

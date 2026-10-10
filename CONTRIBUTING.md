@@ -81,7 +81,7 @@ npx markdownlint-cli2
 `npm config set https-proxy http://127.0.0.1:7890`（端口按自己的代理改，同时设 `proxy`）。
 还是不行就**不必卡在这里**——①②④ 照跑，Markdown 格式交给 CI 那道门；
 在 PR 里注明一句"本机 npm 不可用，③ 由 CI 覆盖"就行，Reviewer 不会因此退回。
-CI 里这五道门与上面一一对应（`npx markdownlint-cli2` 对应门 1）。
+CI 跑的是**五道门**，编号和上面的本地顺序不一样：门 1 = ③ Markdown 格式，门 2 = ① front-matter，门 3 = ② 脱敏，门 4 = lychee 链接检查（本地装 lychee 麻烦，这一道交给 CI），门 5 = ④ 站点构建。
 
 ### 第四步：提 PR（11–14 分钟）
 
@@ -150,7 +150,7 @@ node scripts\check-secrets.mjs
 
 ### 2.5 表达：过一遍 humanizer-zh
 
-内容和事实对了，还要读着像人写的。**这一条不是"锦上添花"，它和前面四条一样是提 PR 前的必做项。**
+内容和事实对了，还要读着像人写的。**这一条和前面四条一样，是提 PR 前的必做项。**
 
 怎么加载、什么场景要过、哪些东西不能碰，写在 [AGENTS.md](AGENTS.md) 第一节和第二节。这里只说自查什么：
 

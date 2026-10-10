@@ -1,10 +1,10 @@
 # skills/humanizer-zh
 
-`humanizer-zh` 是编辑中文表达用的 Agent Skill：去掉空话、重复和模板腔，同时保留事实、确定程度和作者声音。本仓库把它放在这里，让改文档的人（和 agent）有统一的口径可依。
+`humanizer-zh` 是编辑中文表达用的 Agent Skill：去掉空话、重复和模板腔，同时保留事实、确定程度和作者声音。本仓库把它放在这里，让改文档的人（和 agent）有统一的口径。
 
 ## 来源与权威
 
-**权威版本只有一个：上游公开仓库 [op7418/Humanizer-zh](https://github.com/op7418/Humanizer-zh)。** 本目录和其他任何地方放的都是副本。
+**权威版本只有一个：上游公开仓库 [op7418/Humanizer-zh](https://github.com/op7418/Humanizer-zh)。** 本目录和别处放的都是副本。
 
 | 用途 | 位置 |
 | --- | --- |
