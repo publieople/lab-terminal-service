@@ -30,6 +30,7 @@ MkDocs 用的导航在同目录的 `mkdocs.yml` / `nav.片段.yml`，两者内�
   * [ComfyUI 部署](docs/部门/终端服务部/技术模块/ComfyUI部署.md)
   * [Agent 平台部署](docs/部门/终端服务部/技术模块/Agent平台部署.md)
   * [监控与备份](docs/部门/终端服务部/技术模块/监控与备份.md)
+  * [终端环境与配置](docs/部门/终端服务部/技术模块/终端环境与配置.md)
 * [学习课程](docs/部门/终端服务部/学习课程/README.md)
   * [学习路径](docs/部门/终端服务部/学习课程/学习路径.md)
   * [Windows 基本操作](docs/部门/终端服务部/学习课程/Windows基本操作.md)
