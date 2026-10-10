@@ -99,7 +99,11 @@ jobs:
       #   一起放过，等于把链接检查这道门废掉。
       #   站点现已上线（https://publieople.github.io/lab-terminal-service/），
       #   这条排除已删除：README 里指向本仓库站点的绝对地址现在也必须真的能打开。
-      # --accept 200,206,429：429（被限流）不该当成断链，GitHub 对匿名请求挺容易限流。
+      # --accept 200,206,429,503：
+      #   429（被限流）和 503（服务端暂时不可用）都不该当成断链。GitHub 对 runner
+      #   抓 blob 页面会间歇回 503：2026-10-10 那条 qianguyihao/Web 的链接连跑三次
+      #   CI 都是 503，同一时刻在浏览器里打开是 200。404 / 410 没有放进 --accept，
+      #   真正失效的链接仍然会让这道门变红。
       # --exclude '^https?://(www\.)?(stackoverflow\.com|reddit\.com)'：
       #   这两家对非浏览器客户端一律回 403（反爬），人用浏览器打开是正常的，不算断链。
       #   **不要**图省事把 403 加进 --accept —— 那会连"真的 403（无权限 / 已下线）"一起放过。
@@ -109,7 +113,7 @@ jobs:
         with:
           args: >-
             --no-progress
-            --accept 200,206,429
+            --accept 200,206,429,503
             --exclude '^https?://(www\.)?(stackoverflow\.com|reddit\.com)'
             --exclude-path site
             --exclude-path .venv
