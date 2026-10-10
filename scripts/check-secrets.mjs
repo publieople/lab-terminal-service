@@ -12,6 +12,12 @@
  * ⚠️ 这只是正则兜底。它扫不出"实验室 433 房间的某台服务器""上个月离职那位同学的账号"
  *    这类只有人才能判断的信息。**PR Review 必须人工再过一遍**，不能因为脚本绿了就放行。
  *
+ * ⚠️ **图片是彻底的盲区。** 本脚本只读 TEXT_EXT 里的文本后缀，png / jpg / pdf 一律跳过。
+ *    而一张整屏截图恰恰什么都带：终端提示符里的主机名与用户名、`~/.ssh` 里的私钥文件名、
+ *    标题栏与命令行里的路径、浏览器标签页里的内网地址、桌面上的文件与快捷方式。
+ *    **这些正则一条都扫不到。** 所以：截图入库前**先自己看一眼再打码**（主机名 / 用户名 /
+ *    路径 / 地址 / 群名 / 房号），能改写成命令行文本块的就别放截图；确实要放，只截需要的那一小块。
+ *
  * 零依赖：只用 Node 内置模块。命中时退出码 1。
  */
 
@@ -24,7 +30,7 @@ const DOCS_DIR = path.join(REPO_ROOT, 'docs');
 
 const SKIP_DIRS = new Set(['site', '.venv', 'node_modules', '.git', '.cache', 'dist', 'build']);
 
-/** 只扫这些后缀的文本文件；其余（png、pdf、zip…）跳过。 */
+/** 只扫这些后缀的文本文件；其余（png、jpg、pdf、zip…）跳过 —— 图片里的主机名 / 用户名 / 路径扫不到，见文件头「图片是彻底的盲区」。 */
 const TEXT_EXT = new Set([
   '.md',
   '.markdown',
@@ -262,7 +268,7 @@ async function main() {
 
   if (all.length === 0) {
     process.stdout.write(`扫描了 ${files.length} 个文件。\n`);
-    process.stdout.write('⚠️  提醒：正则只能挡住"写得出形状"的信息；房号、设备归属、人员这类要靠 Review 人工判断。\n');
+    process.stdout.write('⚠️  提醒：正则只能挡住"写得出形状"的信息；房号、设备归属、人员、以及截图里的主机名与路径这类要靠 Review 人工判断。\n');
     process.stdout.write('✅ 未发现疑似敏感信息\n');
     process.exit(0);
   }
@@ -274,7 +280,7 @@ async function main() {
   for (const [name, count] of [...perRule.entries()].sort((a, b) => b[1] - a[1])) {
     process.stdout.write(`  ${name} × ${count}\n`);
   }
-  process.stdout.write('\n⚠️  提醒：正则只能挡住"写得出形状"的信息；房号、设备归属、人员这类要靠 Review 人工判断。\n');
+  process.stdout.write('\n⚠️  提醒：正则只能挡住"写得出形状"的信息；房号、设备归属、人员、以及截图里的主机名与路径这类要靠 Review 人工判断。\n');
   process.stdout.write('   处理方法见 CONTRIBUTING.md §2.3：换成 <内网IP> / <设备名> / <域名> 这类占位符，凭据永不入库。\n');
   process.stdout.write(`❌ 发现 ${all.length} 处疑似敏感信息（扫描了 ${files.length} 个文件）\n`);
   process.exit(1);
