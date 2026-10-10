@@ -46,7 +46,8 @@
 ```text
 lab-terminal-service/
 ├─ README.md                 ← 你在这里
-├─ CONTRIBUTING.md           15 分钟上手：怎么改、怎么加
+├─ CONTRIBUTING.md           15 分钟上手：怎么改、怎么加（给人看）
+├─ AGENTS.md                 改这个仓库的约定（给 AI 看：先加载 humanizer-zh）
 ├─ SCHEMA.md                 LLM 可读的内容契约（给主书/LLM wiki 用）
 ├─ 并入主书说明.md             与实验室主书的对接契约（怎么登记、以后怎么改）
 ├─ SUMMARY.md                GitBook 用的目录
@@ -59,6 +60,7 @@ lab-terminal-service/
 ├─ _templates/               8 个写作模板
 ├─ _schema/                  front-matter 校验规则
 ├─ scripts/                  校验与合并演练脚本
+├─ skills/humanizer-zh/      中文表达编辑 Skill（第三方，MIT）
 ├─ assets/                   图片
 └─ raw/                      原始素材（会议记录、聊天记录、厂商手册）
 ```
@@ -116,3 +118,5 @@ node scripts/check-secrets.mjs
 ## 六、许可
 
 文档默认采用 **CC BY-SA 4.0**（署名—相同方式共享）。这是建议值，**待实验室确认**；确认前请勿对外二次分发。见 [LICENSE](LICENSE)。
+
+例外：`skills/humanizer-zh/` 是第三方内容，按 **MIT** 授权，不适用 CC BY-SA 4.0，详见该目录下的 LICENSE 与 [说明](skills/humanizer-zh/README.md)。

@@ -15,6 +15,10 @@
 /docs/部门/终端服务部/技术模块/    @publieople
 /docs/部门/终端服务部/项目实践/    @publieople
 
+# 给 AI 的约定与第三方 Skill 快照：改动会影响所有 agent 的行为
+/AGENTS.md                       @publieople
+/skills/                         @publieople
+
 # 规范与机器可读契约：改动会影响主书和 LLM wiki，改前先在 Issue 里讨论
 /SCHEMA.md                       @publieople
 /并入主书说明.md                    @publieople
