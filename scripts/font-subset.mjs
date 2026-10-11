@@ -90,9 +90,23 @@ const ALWAYS = (() => {
 function collectCharsets() {
   const h1 = new Set();
   const code = new Set();
+  // 页面在站点上真正的大标题来自 front-matter 的 title，站点把它渲染成 h1。
+  // 只扫 `# ` 标题行会漏掉这些字——漏掉的字不会报错，只是静默掉成系统字体，
+  // 所以标题用字单独收一份，出字体后按它做覆盖检查。
+  const titles = new Set();
   const files = walkMarkdown(docsDir);
   for (const file of files) {
     const text = fs.readFileSync(file, 'utf8');
+    const fm = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
+    if (fm) {
+      const t = /^title:\s*(.+?)\s*$/m.exec(fm[1]);
+      if (t) {
+        for (const ch of t[1].replace(/^["']|["']$/g, '')) {
+          titles.add(ch);
+          h1.add(ch);
+        }
+      }
+    }
     for (const line of text.split(/\r?\n/)) {
       const m = /^#\s+(.+?)\s*$/.exec(line);
       if (m) for (const ch of m[1]) h1.add(ch);
@@ -112,7 +126,25 @@ function collectCharsets() {
     set.delete('\r');
     set.delete('\t');
   }
-  return { h1, code, fileCount: files.length };
+  return { h1, code, titles, fileCount: files.length };
+}
+
+// 覆盖检查：pyftsubset 只保证"我要的字符都打进去了"，不保证"我要的字符是对的"。
+// 这份检查拿真正会渲染成大标题的字去问子集，缺字就报出来（只报码位，控制台编码不稳）。
+const COVERAGE_PY = `
+import sys
+from fontTools.ttLib import TTFont
+font_path, want = sys.argv[1], sys.argv[2]
+cmap = TTFont(font_path).getBestCmap()
+missing = sorted({ord(c) for c in want if ord(c) not in cmap})
+print(','.join(hex(c) for c in missing))
+`;
+
+function checkCoverage(fontFile, want) {
+  const r = spawnSync(process.env.PYTHON || 'python', ['-c', COVERAGE_PY, fontFile, [...want].join('')], { encoding: 'utf8' });
+  if (r.error) throw r.error;
+  if (r.status !== 0) throw new Error(`覆盖检查失败：${fontFile}`);
+  return (r.stdout || '').trim();
 }
 
 function pyftsubset(src, charsetFile, outFile) {
@@ -142,9 +174,9 @@ const keepChars = process.argv.includes('--keep-chars');
 fs.mkdirSync(outDir, { recursive: true });
 fs.mkdirSync(tmpDir, { recursive: true });
 
-const { h1, code, fileCount } = collectCharsets();
+const { h1, code, titles, fileCount } = collectCharsets();
 const sets = { h1, code };
-console.log(`扫描 ${fileCount} 个 .md：h1 用字 ${h1.size} 个，代码用字 ${code.size} 个`);
+console.log(`扫描 ${fileCount} 个 .md：h1 用字 ${h1.size} 个（其中标题 ${titles.size} 个），代码用字 ${code.size} 个`);
 
 for (const font of FONTS) {
   if (!fs.existsSync(font.src)) {
@@ -161,6 +193,18 @@ for (const font of FONTS) {
   const after = fs.statSync(outFile).size;
   const pct = ((after / before) * 100).toFixed(2);
   console.log(`${font.out}: ${(before / 1048576).toFixed(1)}MB → ${(after / 1024).toFixed(0)}KB（${pct}%）`);
+  const missing = checkCoverage(outFile, font.scope === 'h1' ? titles : sets[font.scope]);
+  if (!missing) {
+    console.log('  覆盖检查通过：该用的字都在子集里');
+  } else if (font.scope === 'h1') {
+    // 标题掉字是看得见的缺陷（一段标题里混进系统黑体），必须拦住。
+    console.error(`  ！标题用字缺这些，页面上会掉成系统字体：${missing}`);
+    process.exitCode = 1;
+  } else {
+    // 代码字体缺的通常是符号和 emoji（①②、✅、🟢 这类），源字体本来就没有，
+    // 浏览器会顺着字体栈往下找系统字体渲染，观感可接受，所以只提示不拦。
+    console.warn(`  提示：源字体没有这些字，会回退到系统字体渲染：${missing}`);
+  }
 }
 
 if (!keepChars) fs.rmSync(tmpDir, { recursive: true, force: true });
