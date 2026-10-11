@@ -2,7 +2,7 @@
 
 **上海中侨大学 · 人工智能学院 · 具身智能研究所** —— 终端服务部
 
-实验室**终端服务部**的部门知识库与站点。内容按《[实验室技术知识库文档写入规范](docs/规范/文档写入规范.md)》组织。
+实验室**终端服务部**的部门知识库与站点。内容按本库的《[知识库规范](docs/规范/知识库规范.md)》组织；它服从实验室统一的《[技术知识库文档写入规范](docs/规范/文档写入规范.md)》。
 
 实验室主书是 [Xinlanmy/laboratory-knowledge-base](https://github.com/Xinlanmy/laboratory-knowledge-base)：各部门仓库的正文留在各自仓库里，主书登记链接与元数据。登记方式见 [并入主书说明.md](并入主书说明.md)。
 
@@ -33,9 +33,10 @@
 | --- | --- |
 | 知道终端服务部是干什么的 | [部门介绍](docs/部门/终端服务部/README.md) |
 | 申请服务器 / 网络 / 设备接入，或报故障 | [提一个服务请求 Issue](https://github.com/publieople/lab-terminal-service/issues/new/choose) |
-| 查某个技术怎么用 | [技术模块索引](docs/部门/终端服务部/技术模块/README.md) |
-| 新成员想上手 | [学习课程](docs/部门/终端服务部/学习课程/README.md) |
-| 看我们踩过哪些坑 | [技术经验](docs/部门/终端服务部/技术经验/README.md) |
+| 按顺序学一件事 | [学习](docs/部门/终端服务部/学习/README.md) |
+| 查某个技术怎么用 | [参考](docs/部门/终端服务部/参考/README.md) |
+| 看我们踩过哪些坑 | [经验](docs/部门/终端服务部/经验/README.md) |
+| 看我们做出来的东西 | [项目](docs/部门/终端服务部/项目/README.md) |
 | 改一篇文档 / 新增一篇 | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | 知道哪些信息还没填写 | [待补事实](docs/部门/终端服务部/待补事实.md) |
 
@@ -48,24 +49,29 @@ lab-terminal-service/
 ├─ README.md                 ← 你在这里
 ├─ CONTRIBUTING.md           15 分钟上手：怎么改、怎么加（给人看）
 ├─ AGENTS.md                 改这个仓库的约定（给 AI 看：先加载 humanizer-zh）
-├─ SCHEMA.md                 LLM 可读的内容契约（给主书/LLM wiki 用）
 ├─ 并入主书说明.md             与实验室主书的对接契约（怎么登记、以后怎么改）
-├─ SUMMARY.md                GitBook 用的目录
-├─ mkdocs.yml                渲染入口 ①（当前站点用的就是它）
+├─ SUMMARY.md                GitBook 用的目录（脚本生成）
+├─ mkdocs.yml                渲染入口 ①（当前站点用的就是它；nav 由脚本生成）
 ├─ .gitbook.yaml             渲染入口 ②（GitBook Git Sync）
 ├─ docs/
 │  ├─ index.md               站点首页
-│  ├─ 规范/                   文档写入规范（主书层内容，不属于部门章）
-│  └─ 部门/终端服务部/         ★ 部门章：本仓库的知识内容主体
-├─ _templates/               8 个写作模板
-├─ _schema/                  front-matter 校验规则
-├─ scripts/                  校验与合并演练脚本
+│  ├─ 规范/                   本库规范（知识库规范）+ 实验室统一下发的写入规范
+│  ├─ 部门/终端服务部/         ★ 部门章：本仓库的知识内容主体
+│  │  ├─ 学习/ 参考/ 项目/ 经验/
+│  │  ├─ 历史与交接/           人员、设备、系统的变动记录
+│  │  └─ assets/             章内图片
+│  └─ 归档/                   v1 的旧内容与旧规范，只作对照
+├─ _templates/               6 个写作模板（每类一个）
+├─ _schema/pages.json        机器可读契约：枚举、必填字段、必填章节
+├─ scripts/                  生成、校验与合并演练脚本
 ├─ skills/humanizer-zh/      中文表达编辑 Skill（第三方，MIT）
-├─ assets/                   图片
+├─ assets/                  站点级图片（docs/assets）
 └─ raw/                      原始素材（会议记录、聊天记录、厂商手册）
 ```
 
 **关键约定**：知识内容**全部**在 `docs/部门/终端服务部/` 这一棵子树里，其余文件都是仓库自身的说明、工具与素材。这棵子树保持**自包含**——内部零外部链接——于是它随时可以整棵搬去别的地方（例如主书哪天改成直接收纳正文），不会产生断链。
+
+索引表与三份导航都由脚本从 front-matter 和目录树生成，**不要手写**：改了内容跑一次 `node scripts/gen-index.mjs` 和 `node scripts/gen-nav.mjs`。
 
 ---
 
@@ -78,8 +84,10 @@ lab-terminal-service/
 **想新增一篇**（推荐用脚本，它会自动盖好 front-matter）：
 
 ```powershell
-node scripts/new.mjs 技术模块 docs/部门/终端服务部/技术模块/新模块名
+node scripts/new.mjs 参考 docs/部门/终端服务部/参考/Ansible批量配置
 ```
+
+六个类型：`课程` `参考` `项目` `经验` `记录` `管理`。
 
 **本地预览站点**：
 

@@ -1,0 +1,107 @@
+{
+  "version": 2,
+  "description": "知识库 v2 的机器可读契约。字段与枚举口径来自 docs/规范/知识库规范.md §四/§五，章节标题逐字来自 §四。校验实现：scripts/check-pages.mjs。",
+  "specDoc": "../docs/规范/知识库规范.md",
+  "checker": "../scripts/check-pages.mjs",
+
+  "migrating": true,
+  "migratingComment": "试运行开关。true 时：缺「难度/适用版本」只提醒不报错，非课程类的必填章节只提醒不报错。内容迁移完成、审核通过后改成 false，即变成硬门。",
+
+  "enums": {
+    "type": ["课程", "参考", "项目", "经验", "记录", "管理"],
+    "状态": ["草稿", "可用", "待修订"],
+    "可见性": ["公开", "内部"],
+    "难度": ["入门", "进阶", "深入", "待补"]
+  },
+
+  "fields": {
+    "title": { "required": true, "type": "string", "description": "与文件主题一致" },
+    "type": { "required": true, "type": "string", "enum": "type", "description": "决定必填章节" },
+    "部门": { "required": true, "type": "string", "enum": ["终端服务部"] },
+    "维护人": { "required": true, "type": "string", "description": "GitHub 用户名，可多个，逗号分隔" },
+    "更新": { "required": true, "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "状态": { "required": true, "type": "string", "enum": "状态" },
+    "可见性": { "required": true, "type": "string", "enum": "可见性" },
+    "难度": { "required": true, "type": "string", "enum": "难度", "requiredFor": ["课程", "参考", "项目"] },
+    "适用版本": { "required": true, "type": "string", "requiredFor": ["课程", "参考", "项目"], "description": "软件/系统版本；没有版本概念写「不限」，不确定写「待补」" },
+    "前置": { "required": false, "type": "array", "items": "string", "description": "本页依赖的页面，仓库内相对路径" },
+    "tags": { "required": false, "type": "array", "items": "string" }
+  },
+
+  "alwaysRequiredFields": ["title", "type", "部门", "维护人", "更新", "状态", "可见性"],
+  "v2Fields": ["难度", "适用版本"],
+
+  "rules": {
+    "files": "docs/部门/**/*.md",
+    "comment": "docs/部门/ 下每个 .md 都必须以 front-matter 开头；归档目录不参与章节校验。",
+    "headingPolicy": "章节标题必须逐字出现，可用任意层级的 ## 标题；不适用的小节保留标题并写「不适用」"
+  },
+
+  "skipSections": [
+    "docs/归档/**/*.md",
+    "docs/部门/*/README.md",
+    "docs/部门/*/招新介绍.md",
+    "docs/部门/*/职责与服务目录.md",
+    "docs/部门/*/待补事实.md",
+    "docs/部门/*/学习/README.md",
+    "docs/部门/*/参考/README.md",
+    "docs/部门/*/项目/README.md",
+    "docs/部门/*/经验/README.md",
+    "docs/部门/*/历史与交接/README.md"
+  ],
+  "skipSectionsComment": "索引页与部门管理页结构就是表格和列表，硬套正文章节会让它们退化成假正文；它们的 type 是「管理」，本可以不进这张表，这里显式列出是为了让规则一眼可读。归档目录整棵豁免。",
+
+  "sectionsEnforced": ["课程"],
+  "sectionsEnforcedComment": "试运行期间只对「课程」强制校验必填章节。迁移一批、绿一批，就把该 type 加进来。",
+
+  "sections": {
+    "课程": ["一、学习目标", "二、前置", "三、正文", "四、练习", "五、验收标准", "六、下一讲"],
+    "参考": ["一、是什么", "二、什么时候用", "三、怎么做", "四、常见问题", "五、相关"],
+    "项目": ["一、项目目标", "二、环境", "三、复现步骤", "四、成果", "五、已知问题", "六、用到的技术"],
+    "经验": ["一、现象", "二、环境", "三、原因", "四、解决", "五、验证", "六、经验"],
+    "记录": [],
+    "管理": []
+  },
+
+  "types": {
+    "课程": { "dir": "学习/", "template": "_templates/课程模板.md", "indexed": "学习" },
+    "参考": { "dir": "参考/", "template": "_templates/参考模板.md", "indexed": "参考" },
+    "项目": { "dir": "项目/", "template": "_templates/项目模板.md", "indexed": "项目" },
+    "经验": { "dir": "经验/", "template": "_templates/经验模板.md", "indexed": "经验" },
+    "记录": { "dir": "历史与交接/", "template": "_templates/记录模板.md" },
+    "管理": { "dir": "（部门根 / 规范 / 各类 README）", "template": "_templates/管理模板.md" }
+  },
+
+  "indexMarkers": {
+    "open": "<!-- gen:index ",
+    "close": "<!-- /gen:index -->",
+    "columns": ["名称", "一句话", "难度", "状态", "更新", "页面"],
+    "comment": "索引表由 scripts/gen-index.mjs 按 front-matter 生成，只重写标记之间的内容。"
+  },
+
+  "nav": {
+    "mkdocsMarkers": { "open": "  # >>> gen:nav", "close": "  # <<< gen:nav" },
+    "generatedFiles": ["mkdocs.yml", "nav.片段.yml", "SUMMARY.md"],
+    "comment": "三份导航由 scripts/gen-nav.mjs 从目录树生成；CI 重跑生成并比对，手改会被打回。"
+  },
+
+  "checks": [
+    { "id": "frontmatter-present", "level": "error", "rule": "以 --- 开头并闭合 front-matter 块" },
+    { "id": "required-fields", "level": "error", "rule": "alwaysRequiredFields 全部存在且非空" },
+    { "id": "v2-fields", "level": "warn-in-migrating", "rule": "课程/参考/项目 需要 难度 与 适用版本；值 待补 时列入待补清单" },
+    { "id": "enum-values", "level": "error", "rule": "type / 状态 / 可见性 / 难度 取值落在 enums 中" },
+    { "id": "date-format", "level": "error", "rule": "更新 匹配 ^\\d{4}-\\d{2}-\\d{2}$" },
+    { "id": "required-sections", "level": "error-for-sectionsEnforced", "rule": "sectionsEnforced 里的 type 逐个查找同名标题" },
+    { "id": "stale", "level": "warn", "rule": "更新 距今超过 12 个月 → 待复核清单" },
+    { "id": "internal-visibility", "level": "info", "rule": "可见性=内部 时公开库只放标题 + 一句说明 + 私有库路径" }
+  ],
+
+  "hardRules": [
+    "编码 UTF-8，换行 LF，文件末尾留一个换行，行尾不留空格",
+    "中文与英文/数字之间加空格",
+    "标题用 ATX 形式，不用 Setext 下划线式",
+    "库内互链用相对路径，不用绝对 URL",
+    "不写内网 IP / 真实主机名 / 真实域名 / 真实用户名 / 凭据，用 <内网IP> <设备名> <域名> <用户名> 占位",
+    "不写空话套话；表达规则以 AGENTS.md 第一节为准"
+  ]
+}

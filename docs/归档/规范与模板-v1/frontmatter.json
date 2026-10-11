@@ -55,14 +55,14 @@
 
   "skipSections": [
     "docs/规范/文档写入规范.md",
-    "docs/部门/*/技术模块/README.md",
-    "docs/部门/*/学习课程/README.md",
-    "docs/部门/*/项目实践/README.md",
-    "docs/部门/*/技术经验/README.md",
-    "docs/部门/*/基础知识/README.md",
+    "docs/部门/*/参考/README.md",
+    "docs/部门/*/学习/README.md",
+    "docs/部门/*/项目/README.md",
+    "docs/部门/*/经验/README.md",
+    "docs/部门/*/参考/README.md",
     "docs/部门/*/历史与交接/README.md",
     "docs/部门/*/README.md",
-    "docs/部门/*/技术模块/硬件/*.md",
+    "docs/部门/*/参考/硬件/*.md",
     "docs/部门/*/历史与交接/*复盘.md"
   ],
   "skipSectionsComment": "只校 front-matter、不校正文章节的文件。`*` 匹配任意一段路径（不跨 `/`）。每一类的 README.md 是该类的索引页，结构是「总览表 + 阅读顺序」，不套该类正文的必填章节；它们的 type 仍取所属类别，以便索引页被正确归类。末尾两条是**形状本身不同**的页面：硬件资料页与项目复盘页在 SCHEMA.md §3.1 的 9 个 type 里没有独立取值，scripts/new.mjs 按就近归并写成 `技术模块` / `项目实践`（见该脚本 TYPES 常量的注释），但它们的章节按 SCHEMA.md §4.3 / §4.1 之外的自定义小节奏（sectionSchemas.硬件资料 / sectionSchemas.项目复盘）。若不给这两类路径豁免，每一篇都会被误报为「缺少必填章节」——豁免的是**章节**，front-matter 的 8 个字段照校不误。",
@@ -78,30 +78,30 @@
       "note": "自由结构；README.md 另外遵守 9 字段约定，见 sectionSchemas.部门介绍9字段"
     },
     "基础知识": {
-      "dir": "基础知识/",
+      "dir": "参考/",
       "requiredSections": []
     },
     "技术模块": {
-      "dir": "技术模块/",
+      "dir": "参考/",
       "template": "_templates/技术模块模板.md",
       "schemaSection": "§4.3",
       "requiredSections": ["一、技术是什么", "二、为什么使用", "三、工作原理", "四、使用环境", "五、基本使用", "六、实际应用", "七、常见问题", "八、延伸方向"]
     },
     "学习课程": {
-      "dir": "学习课程/",
+      "dir": "学习/",
       "template": "_templates/课程模板.md",
       "schemaSection": "§4.2",
       "requiredSections": ["一、课程定位", "二、面向对象", "三、前置知识", "四、学习目标", "五、知识模块", "六、实践内容", "七、项目衔接"]
     },
     "项目实践": {
-      "dir": "项目实践/",
+      "dir": "项目/",
       "template": "_templates/项目README模板.md",
       "schemaSection": "§4.1",
       "requiredSections": ["一、项目概述", "二、项目目标", "三、技术路线", "四、开发环境", "五、硬件环境", "六、核心代码", "七、项目实现", "八、复现步骤", "九、项目成果", "十、已知问题", "十一、后续方向"],
       "requiredSubtopics": ["准备什么", "装什么", "配什么", "跑什么", "预期结果", "如何判定成功"]
     },
     "技术经验": {
-      "dir": "技术经验/",
+      "dir": "经验/",
       "template": "_templates/踩坑记录模板.md",
       "schemaSection": "§4.4",
       "requiredSections": ["一、现象", "二、环境", "三、原因", "四、解决方案", "五、验证", "六、经验"]
@@ -142,11 +142,11 @@
   },
 
   "templates": {
-    "项目实践": { "file": "_templates/项目README模板.md", "target": "docs/部门/<部门>/项目实践/<项目名>.md", "requiredSectionCount": 11 },
-    "学习课程": { "file": "_templates/课程模板.md", "target": "docs/部门/<部门>/学习课程/<课程名>.md", "requiredSectionCount": 7 },
-    "技术模块": { "file": "_templates/技术模块模板.md", "target": "docs/部门/<部门>/技术模块/<技术名>.md", "requiredSectionCount": 8 },
-    "技术经验": { "file": "_templates/踩坑记录模板.md", "target": "docs/部门/<部门>/技术经验/<问题名>.md", "requiredSectionCount": 6 },
-    "硬件资料": { "file": "_templates/硬件资料模板.md", "target": "docs/部门/<部门>/技术模块/硬件/<设备名>.md", "requiredSectionCount": 8 },
+    "项目实践": { "file": "_templates/项目README模板.md", "target": "docs/部门/<部门>/项目/<项目名>.md", "requiredSectionCount": 11 },
+    "学习课程": { "file": "_templates/课程模板.md", "target": "docs/部门/<部门>/学习/<课程名>.md", "requiredSectionCount": 7 },
+    "技术模块": { "file": "_templates/技术模块模板.md", "target": "docs/部门/<部门>/参考/<技术名>.md", "requiredSectionCount": 8 },
+    "技术经验": { "file": "_templates/踩坑记录模板.md", "target": "docs/部门/<部门>/经验/<问题名>.md", "requiredSectionCount": 6 },
+    "硬件资料": { "file": "_templates/硬件资料模板.md", "target": "docs/部门/<部门>/参考/硬件/<设备名>.md", "requiredSectionCount": 8 },
     "项目复盘": { "file": "_templates/项目复盘模板.md", "target": "docs/部门/<部门>/历史与交接/<项目名>复盘.md", "requiredSectionCount": 5 },
     "部门介绍": { "file": "_templates/部门介绍模板.md", "target": "docs/部门/<部门>/README.md", "requiredSectionCount": 9 },
     "历史与交接": { "file": "_templates/历史与交接模板.md", "target": "docs/部门/<部门>/历史与交接/<主题>.md", "requiredSectionCount": 3 }

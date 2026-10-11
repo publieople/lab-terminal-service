@@ -2,7 +2,7 @@
 
 这里是**终端服务部**（Terminal Service Department）的技术知识库，人和 AI 都能改它。这个文件写的是 AI 改这个仓库时必须遵守的规则。
 
-动手改之前先读这里。给人看的贡献流程在 [CONTRIBUTING.md](CONTRIBUTING.md)，内容的结构契约在 [SCHEMA.md](SCHEMA.md)，两者都以本文件的规则为前提。
+动手改之前先读这里。给人看的贡献流程在 [CONTRIBUTING.md](CONTRIBUTING.md)，内容的结构契约在 [docs/规范/知识库规范.md](docs/规范/知识库规范.md) 与 [_schema/pages.json](_schema/pages.json)，两者都以本文件的规则为前提。v1 的 `SCHEMA.md` 已随旧规范收进 `docs/归档/规范与模板-v1/`，只作对照。
 
 ## 一、改中文正文之前，先加载 humanizer-zh
 
@@ -53,7 +53,7 @@ rg -n '不是[^。；]{0,26}[，,]\s*是|而非|而不是|并非' docs
 
 这个仓库的文档结构有机器校验，改坏了 CI 会红。所以表达润色只在散文范围内进行：
 
-- **YAML front-matter 一个字符都不要动。** 它由 `_schema/frontmatter.json` 校验，字段名和取值都是枚举，改错直接红。
+- **YAML front-matter 一个字符都不要动。** 它由 `_schema/pages.json` 校验，字段名和取值都是枚举，改错直接红。唯一例外是 `更新` 日期：改了正文就把它改成今天。
 - **章节标题的文字与层级不动。** `## 一、现象` 这类标题是逐字校验的；改了还会让指向锚点的链接失效。
 - **代码块、行内代码、命令、路径、URL、链接目标、显式 ID 原样保留。**
 - **表格里的数据、列表项的顺序和独立含义不合并、不删减。** 删掉一项排比时，先确认它不是一条独立的信息。
@@ -66,26 +66,31 @@ rg -n '不是[^。；]{0,26}[，,]\s*是|而非|而不是|并非' docs
 1. **公开库，内网信息零出现。** 真实主机名、内网 IP、`*.ts.net`、真实域名、凭据、用户名一律写成 `<设备名>` `<内网IP>` `<域名>` 这类占位符。改完跑 `node scripts/check-secrets.mjs`。**截图是脚本扫不到的盲区，必须人工看一遍再打码**，脚本绿了不等于图没问题。
 2. **知识内容只写在 `docs/部门/终端服务部/` 这一棵子树里，并且这棵子树是自包含的**——章内的页面不写指向章外的链接，需要提章外内容时用文字说明。
 3. **`docs/` 下每个 `.md` 都要有 front-matter。** 唯一例外是 `docs/规范/文档写入规范.md`：它是外部导入件，只在开头加了头，正文不改、格式也不按本仓库风格改。
-4. **提交前四道门全绿才提**（详细说明见 [CONTRIBUTING.md](CONTRIBUTING.md) 第一步到第三步）：
+4. **索引表和导航由脚本生成，不要手写。** 索引表是 `<!-- gen:index … -->` 标记之间的那张表（`node scripts/gen-index.mjs`）；三份导航是 `mkdocs.yml` 里的 `# >>> gen:nav` 块、`nav.片段.yml`、`SUMMARY.md`（`node scripts/gen-nav.mjs`）。手改的内容会在 `--check` 模式下被打回。
+5. **提交前这些检查全绿才提**（详细说明见 [CONTRIBUTING.md](CONTRIBUTING.md) 第四节）：
 
    ```powershell
    npx markdownlint-cli2                     # ① 格式：不要自己传 globs
-   node scripts\check-frontmatter.mjs        # ② front-matter 与必填章节
-   node scripts\check-secrets.mjs            # ③ 脱敏兜底
-   .\.venv\Scripts\mkdocs.exe build --strict # ④ 站点能构建
+   node scripts\check-pages.mjs              # ② 字段、枚举、必填章节
+   node scripts\gen-index.mjs --check        # ③ 索引表与 front-matter 一致
+   node scripts\gen-nav.mjs --check          # ④ 导航与目录树一致
+   node scripts\check-secrets.mjs            # ⑤ 脱敏兜底
+   .\.venv\Scripts\mkdocs.exe build --strict # ⑥ 站点能构建
    ```
 
    动了目录结构或想让本章能整棵搬进别的书时，再加跑 `pwsh scripts\verify-merge.ps1`，断链数必须是 0。
 
-5. **正文用中文全角标点**，中文与英文、数字之间加空格；文件 UTF-8、换行 LF、末尾留一个换行。
-6. **提交信息用中文**，动词开头，一句话说清改了什么。
+6. **正文用中文全角标点**，中文与英文、数字之间加空格；文件 UTF-8、换行 LF、末尾留一个换行。
+7. **提交信息用中文**，动词开头，一句话说清改了什么。
 
 ## 四、优先级
 
 规则冲突时按这个顺序处理：
 
 ```text
-SCHEMA.md（结构与字段） > 本文件第三节（安全与硬规则） > 本文件第一节（表达） > CONTRIBUTING.md（人的流程）
+docs/规范/知识库规范.md（结构与字段） > 本文件第三节（安全与硬规则） > 本文件第一节（表达） > CONTRIBUTING.md（人的流程）
 ```
+
+试运行期间（`_schema/pages.json` 里 `migrating: true`）老页面缺新章节、缺 `难度`／`适用版本` 只进「待重写 / 待补字段」清单，不挡 CI；新写的页面按规范一次填齐。
 
 **安全永远压过表达。** 如果 humanizer-zh 建议删掉的那句话恰好带着限制条件、归因或不确定性——"仅当缓存开启时"、"据称"、"尚未验证"——留下它。宁可留一句不够漂亮的话，也不要让读者以为一件没验证的事已经确定。

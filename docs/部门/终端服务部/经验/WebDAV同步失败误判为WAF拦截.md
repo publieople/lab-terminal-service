@@ -1,12 +1,12 @@
 ---
 title: WebDAV 同步失败误判为 WAF 拦截
-type: 技术经验
+type: 经验
 部门: 终端服务部
 维护人: publieople
 更新: 2026-10-10
 状态: 可用
 可见性: 公开
-tags: [技术经验, WebDAV, Nginx, Docker, 排查方法]
+tags: [经验, WebDAV, Nginx, Docker, 排查方法]
 ---
 
 # WebDAV 同步失败误判为 WAF 拦截

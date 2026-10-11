@@ -1,12 +1,12 @@
 ---
 title: 现代化 Web 开发 · 第三周：现代化 UI 库和工具
-type: 学习课程
+type: 课程
 部门: 终端服务部
 维护人: publieople
 更新: 2026-10-10
 状态: 草稿
 可见性: 公开
-tags: [学习课程, 前端, UI库, Tailwind CSS]
+tags: [课程, 前端, UI库, Tailwind CSS]
 ---
 
 # 现代化 Web 开发 · 第三周：现代化 UI 库和工具

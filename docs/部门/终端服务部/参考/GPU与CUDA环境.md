@@ -1,6 +1,6 @@
 ---
 title: GPU 与 CUDA 环境
-type: 技术模块
+type: 参考
 部门: 终端服务部
 维护人: publieople
 更新: 2026-10-09

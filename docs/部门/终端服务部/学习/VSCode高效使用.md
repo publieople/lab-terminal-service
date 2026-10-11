@@ -1,12 +1,12 @@
 ---
 title: VS Code 高效使用
-type: 学习课程
+type: 课程
 部门: 终端服务部
 维护人: publieople
 更新: 2026-10-10
 状态: 草稿
 可见性: 公开
-tags: [学习课程, VS Code, 效率工具]
+tags: [课程, VS Code, 效率工具]
 ---
 
 # VS Code 高效使用

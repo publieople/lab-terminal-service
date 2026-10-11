@@ -339,7 +339,7 @@ function rel(p) {
 
 /**
  * 极简 glob：只支持星号，且星号 **不跨斜杠**。
- * 用来匹配 `skipSections` 里的模式，例如 `docs/部门` + 星号 + `/技术模块/README.md`。
+ * 用来匹配 `skipSections` 里的模式，例如 `docs/部门` + 星号 + `/参考/README.md`。
  * 不含星号的模式退化为精确比较。
  */
 function globMatch(pattern, value) {
