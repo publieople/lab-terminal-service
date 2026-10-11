@@ -63,7 +63,7 @@ tags: [学习课程, Windows, 工具]
 | PowerToys | 微软官方的小工具合集：窗口分屏布局、批量重命名、取色、快捷键速查、Run 启动器 | `winget install --id Microsoft.PowerToys --exact` |
 | Everything | 按文件名全盘搜索，输入即出结果。Windows 自带搜索在文件多的时候慢到没法用 | `winget install --id voidtools.Everything --exact` |
 | OneCommander | 双栏文件管理器，带标签页、快速预览。整理大量文件时比资源管理器省一半操作 | `winget install --id MilosParipovic.OneCommander --exact` |
-| NanaZip | 压缩解压：系统自带的 zip 功能打不开 rar/7z，也不能分卷与加密 | `winget install --id M2Team.NanaZip --exact` |
+| 7-Zip / NanaZip（二选一） | 压缩解压：系统自带的 zip 功能打不开 rar/7z，也不能分卷与加密 | `winget install --id 7zip.7zip --exact` 或 `winget install --id M2Team.NanaZip --exact` |
 | AutoHotkey | 把重复操作写成快捷键脚本，例如"一键把选中的路径转成反斜杠" | `winget install --id AutoHotkey.AutoHotkey --exact` |
 | UniGetUI | 图形界面的包管理器，把 winget / Scoop / Chocolatey / pip / npm 收在一个窗口里，看得到装了什么、哪些能升级 | 官网安装包（`winget search` 里没搜到同名包） |
 | Quicker / PixPin（选装） | 快捷动作面板 / 带贴图与 OCR 的截图工具。两个都很有用，但 `winget` 里没有，走官网安装包 | 官网安装包 |
@@ -84,6 +84,8 @@ tags: [学习课程, Windows, 工具]
 | Visual Studio Community | 需要 .NET / C++ 桌面或调试场景时才装，体积大，日常不必装 | `winget install --id Microsoft.VisualStudio.2022.Community --exact` |
 | Docker Desktop | 本机跑容器。要跟着部署类文档动手时再装 | `winget install --id Docker.DockerDesktop --exact` |
 | Sysinternals Suite | 官方排查工具合集：Autoruns（开机自启到底有谁）、Process Explorer（进程树与句柄）、TCPView（端口与连接） | `winget install --id Microsoft.Sysinternals.Suite --exact` |
+| Scoop | 免管理员的命令行软件安装器：CLI 工具、字体、运行时都能装，装在用户目录里，重装系统时容易恢复 | 按官方说明安装 |
+| FFmpeg | 命令行音视频处理：转码、截取、合成、抽帧。很多图形工具在后台依赖它 | `scoop install ffmpeg` 或官网压缩包 |
 
 ### 5.3 网络与远程
 
