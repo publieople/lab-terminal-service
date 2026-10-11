@@ -21,7 +21,7 @@ tags: [学习课程, Windows, 工具]
 2. **能在 `winget` 里装**——重装系统后一条命令恢复，不用满网找安装包；
 3. **出问题搜得到答案**——有文档、有社区，遇到报错不至于只能等卖家回复。
 
-按这三条，很多"很有名"的软件会被筛掉，这不是遗漏，是刻意为之。
+这份清单按上面三条筛过，很多"很有名"的软件因此没进来，这是有意的取舍。
 
 ---
 
@@ -63,7 +63,7 @@ tags: [学习课程, Windows, 工具]
 | PowerToys | 微软官方的小工具合集：窗口分屏布局、批量重命名、取色、快捷键速查、Run 启动器 | `winget install --id Microsoft.PowerToys --exact` |
 | Everything | 按文件名全盘搜索，输入即出结果。Windows 自带搜索在文件多的时候慢到没法用 | `winget install --id voidtools.Everything --exact` |
 | OneCommander | 双栏文件管理器，带标签页、快速预览。整理大量文件时比资源管理器省一半操作 | `winget install --id MilosParipovic.OneCommander --exact` |
-| 7-Zip / NanaZip（二选一） | 压缩解压：系统自带的 zip 功能打不开 rar/7z，也不能分卷与加密 | `winget install --id 7zip.7zip --exact` 或 `winget install --id M2Team.NanaZip --exact` |
+| 7-Zip | 压缩解压：系统自带的 zip 功能打不开 rar/7z，也不能分卷与加密 | `winget install --id 7zip.7zip --exact` |
 | AutoHotkey | 把重复操作写成快捷键脚本，例如"一键把选中的路径转成反斜杠" | `winget install --id AutoHotkey.AutoHotkey --exact` |
 | UniGetUI | 图形界面的包管理器，把 winget / Scoop / Chocolatey / pip / npm 收在一个窗口里，看得到装了什么、哪些能升级 | 官网安装包（`winget search` 里没搜到同名包） |
 | Quicker / PixPin（选装） | 快捷动作面板 / 带贴图与 OCR 的截图工具。两个都很有用，但 `winget` 里没有，走官网安装包 | 官网安装包 |
