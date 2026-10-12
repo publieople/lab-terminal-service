@@ -62,7 +62,9 @@ function buildTree() {
   const readmeChild = dept.children.find((c) => c.path === `${DEPT}/README.md`);
   const rest = dept.children.filter((c) => c !== readmeChild);
   const lineNodes = LINES.map((l) => rest.find((c) => c.label === labelOf(`${DEPT}/${l}/README.md`) || (c.children && c.children.some((x) => x.path === `${DEPT}/${l}/README.md`)))).filter(Boolean);
-  const others = rest.filter((c) => !lineNodes.includes(c) && !ordered.includes(c));
+  // ordered 里的节点是新建对象，必须按路径比对，否则同样的页面会再进一次 others 变成重复项。
+  const orderedPaths = new Set(ordered.map((o) => o.path));
+  const others = rest.filter((c) => !lineNodes.includes(c) && !(c.path && orderedPaths.has(c.path)));
   dept.children = [readmeChild, ...ordered, ...lineNodes, ...others].filter(Boolean);
   tree.push(dept);
 
