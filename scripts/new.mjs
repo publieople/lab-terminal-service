@@ -16,6 +16,7 @@ const TYPES = Object.entries(schema.types).map(([type, cfg]) => ({ type, ...cfg 
 const EXAMPLES = {
   课程: 'docs/部门/终端服务部/学习/01-Windows基础/03-环境变量',
   参考: 'docs/部门/终端服务部/参考/端口与防火墙',
+  推荐: 'docs/部门/终端服务部/参考/中文输入法怎么选',
   项目: 'docs/部门/终端服务部/项目/机房监控大屏',
   经验: 'docs/部门/终端服务部/经验/磁盘inode耗尽',
   记录: 'docs/部门/终端服务部/历史与交接/2026年春季人员变动',
@@ -67,7 +68,7 @@ fs.mkdirSync(path.dirname(outAbs), { recursive: true });
 fs.writeFileSync(outAbs, content);
 console.log(`✓ 已创建 ${outRel}（type: ${type}）`);
 console.log('\n接下来：');
-console.log('  1. 填 front-matter 的 维护人 / 难度 / 适用版本 / 一句话，删掉尖括号占位符');
+console.log('  1. 填 front-matter 的 维护人 / 难度 / 适用版本 / 一句话（推荐类还要填 推荐级别），删掉尖括号占位符');
 console.log('  2. 删掉模板里的斜体提示，按章节写正文');
 console.log('  3. node scripts/gen-index.mjs && node scripts/gen-nav.mjs');
 console.log('  4. npx markdownlint-cli2 && node scripts/check-pages.mjs && node scripts/check-secrets.mjs');

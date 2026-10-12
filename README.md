@@ -62,6 +62,7 @@ lab-terminal-service/
 │  │  └─ assets/             章内图片
 │  └─ 归档/                   v1 的旧内容与旧规范，只作对照
 ├─ _templates/               5 个写作模板
+├─ _templates/               6 个写作模板
 ├─ _schema/pages.json        机器可读契约：枚举、必填字段、必填章节
 ├─ scripts/                  生成、校验与合并演练脚本
 ├─ skills/humanizer-zh/      中文表达编辑 Skill（第三方，MIT）
@@ -87,7 +88,7 @@ lab-terminal-service/
 node scripts/new.mjs 参考 docs/部门/终端服务部/参考/Ansible批量配置
 ```
 
-六个类型：`课程` `参考` `项目` `经验` `记录` `管理`。
+七个类型：`课程` `参考` `推荐` `项目` `经验` `记录` `管理`。
 
 **本地预览站点**：
 

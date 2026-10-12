@@ -31,7 +31,9 @@ const byRel = new Map(pages.map((p) => [p.rel, p]));
 
 function row(linkText, linkTarget, page) {
   const d = (page && page.data) || {};
-  return `| [${linkText}](${linkTarget}) | ${page ? oneLine(page) : '—'} | ${d['难度'] || '—'} | ${d['状态'] || '—'} | ${d['更新'] || '—'} |`;
+  const one = page ? oneLine(page) : '—';
+  const level = d['推荐级别'] ? `${d['推荐级别']} · ` : '';
+  return `| [${linkText}](${linkTarget}) | ${level}${one} | ${d['难度'] || '—'} | ${d['状态'] || '—'} | ${d['更新'] || '—'} |`;
 }
 
 /** 类型模式：列出 prefix 下所有该 type 的页面，按路径（序号优先）排序。 */
