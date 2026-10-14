@@ -3,7 +3,7 @@ title: WebDAV 同步失败误判为 WAF 拦截
 type: 经验
 部门: 终端服务部
 维护人: publieople
-更新: 2026-10-10
+更新: 2026-10-14
 状态: 可用
 可见性: 公开
 tags: [经验, WebDAV, Nginx, Docker, 排查方法]
@@ -15,7 +15,7 @@ tags: [经验, WebDAV, Nginx, Docker, 排查方法]
 
 ## 一、现象
 
-用剪贴板工具 TieZ 的 WebDAV 同步做跨设备剪贴板，大部分请求都正常，**只有 MOVE 请求返回 502 Bad Gateway**，同步在最后一步中断。
+用剪贴板工具 TieZ 的 WebDAV 同步做跨设备剪贴板，其他方法都正常，**只有 MOVE 请求返回 502 Bad Gateway**，同步在最后一步中断。
 
 同一个 WebDAV 端点上，其他方法都是好的：
 

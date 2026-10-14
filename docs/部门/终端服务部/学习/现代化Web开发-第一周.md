@@ -3,7 +3,7 @@ title: 现代化 Web 开发 · 第一周：网页开发基础与现代化样式�
 type: 课程
 部门: 终端服务部
 维护人: publieople
-更新: 2026-10-10
+更新: 2026-10-14
 状态: 草稿
 可见性: 公开
 tags: [课程, 前端, HTML, CSS, JavaScript]
@@ -131,14 +131,14 @@ tags: [课程, 前端, HTML, CSS, JavaScript]
 
 #### 实践任务
 
-- 将之前创建的 HTML 页面使用 Tailwind CSS 进行样式化
+- 将之前创建的 HTML 页面用 Tailwind CSS 样式化
 - 实现响应式布局
 
 #### 文档查阅任务
 
 - 访问 Tailwind CSS 官方文档：<https://tailwindcss.com/>
 - 学习 “Installation” 和 “Utility-First Fundamentals” 章节
-- 查找 Grid 布局和 Flexbox 相关类名
+- 查找 Grid 布局和 Flexbox 的类名
 - 在你的页面中实现一个 Grid 布局组件
 
 ### 第 5-6 天：JavaScript 基础
@@ -169,7 +169,7 @@ tags: [课程, 前端, HTML, CSS, JavaScript]
 #### 自主学习任务
 
 - 选择一个你感兴趣的 CSS 效果
-- 查阅相关文档和教程
+- 查阅该效果的文档和教程
 - 在你的页面中实现该效果
 
 ### 学习资源
