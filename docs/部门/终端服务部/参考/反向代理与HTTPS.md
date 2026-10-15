@@ -3,7 +3,7 @@ title: 反向代理与 HTTPS
 type: 参考
 部门: 终端服务部
 维护人: publieople
-更新: 2026-10-14
+更新: 2026-10-15
 状态: 草稿
 可见性: 公开
 tags: [反向代理, HTTPS, 端口, Web]
@@ -45,7 +45,7 @@ tags: [反向代理, HTTPS, 端口, Web]
 | --- | --- |
 | 反向代理 | 任选（实验室现状待补，真实清单在内部库） |
 | 端口 | **80 端口已划为保留端口，不得再新增占用**，细节见内部库的端口登记表 |
-| HTTPS 证书 | ⚠️ 本实验室组网所用的 tailnet **不支持签发 TLS 证书**（`tailscale cert` 会返回 `does not support getting TLS certs`），因此组网内暴露只能用明文 HTTP。要 HTTPS 就必须另想办法（自签证书或外部证书），**别在这条路上耗时间** |
+| HTTPS 证书 | ⚠️ 本实验室组网所用的 tailnet 不支持签发 TLS 证书（细节见[Tailscale 组网](Tailscale组网.md)）；组网内暴露只能用明文 HTTP，要 HTTPS 就用自签证书或外部证书 |
 | 组网暴露 | 见[Tailscale 组网](Tailscale组网.md) 的 `serve` 用法 |
 
 ## 五、基本使用

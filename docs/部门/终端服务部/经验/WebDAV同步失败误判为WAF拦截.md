@@ -76,7 +76,7 @@ Destination: /dav/tiez-sync/head.json
 
 ---
 
-## 四、解决方案
+## 四、解决
 
 **第一处：在反向代理侧把 Destination 的 scheme 与 host 剥掉**，让上游只看到相对路径：
 
