@@ -36,16 +36,14 @@
 
   "rules": {
     "files": "docs/部门/**/*.md",
-    "comment": "docs/部门/ 下每个 .md 都必须以 front-matter 开头；归档目录不参与章节校验。",
+    "comment": "docs/部门/ 下每个 .md 都必须以 front-matter 开头。",
     "headingPolicy": "章节标题必须逐字出现，可用任意层级的 ## 标题；不适用的小节保留标题并写「不适用」"
   },
 
   "skipSections": [
-    "docs/归档/**/*.md",
     "docs/部门/*/README.md",
     "docs/部门/*/招新介绍.md",
     "docs/部门/*/职责与服务目录.md",
-    "docs/部门/*/待补事实.md",
     "docs/部门/*/学习/README.md",
     "docs/部门/*/参考/README.md",
     "docs/部门/*/项目/README.md",
