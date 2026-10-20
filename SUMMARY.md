@@ -29,6 +29,7 @@
     * [GPU 与 CUDA 环境](docs/部门/终端服务部/参考/GPU与CUDA环境.md)
     * [Git 分支不敢动手，先用可视化练习走一遍](docs/部门/终端服务部/参考/Git分支不敢动手就先用可视化练习.md)
     * [Linux 服务器运维](docs/部门/终端服务部/参考/Linux服务器运维.md)
+    * [SSH 远程登录与端口转发](docs/部门/终端服务部/参考/SSH.md)
     * [Tailscale 组网](docs/部门/终端服务部/参考/Tailscale组网.md)
     * [反向代理与 HTTPS](docs/部门/终端服务部/参考/反向代理与HTTPS.md)
     * [容器与编排](docs/部门/终端服务部/参考/容器与编排.md)
