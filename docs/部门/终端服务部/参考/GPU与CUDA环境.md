@@ -59,7 +59,7 @@ tags: [GPU, CUDA, NVIDIA, 显存]
 
 ## 六、实际应用
 
-> 待补：实验室里哪些任务占用 GPU、有没有排队约定、与[ComfyUI 部署](ComfyUI部署.md)的关系。
+> 待补：实验室里哪些任务占用 GPU、有没有排队约定、与[ComfyUI 部署](ComfyUI/01-部署.md)的关系。
 
 ## 七、常见问题
 

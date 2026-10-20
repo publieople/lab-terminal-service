@@ -3,43 +3,149 @@
   "description": "知识库 v2 的机器可读契约。字段与枚举口径来自 docs/规范/知识库规范.md §四/§五，章节标题逐字来自 §四。校验实现：scripts/check-pages.mjs。",
   "specDoc": "../docs/规范/知识库规范.md",
   "checker": "../scripts/check-pages.mjs",
-
   "migrating": true,
   "migratingComment": "试运行开关。true 时：缺「难度/适用版本」只提醒不报错，非课程类的必填章节只提醒不报错。内容迁移完成、审核通过后改成 false，即变成硬门。",
-
   "enums": {
-    "type": ["课程", "参考", "推荐", "项目", "经验", "记录", "管理"],
-    "状态": ["草稿", "可用", "待修订"],
-    "可见性": ["公开", "内部"],
-    "难度": ["入门", "进阶", "深入", "待补"],
-    "推荐级别": ["必装", "建议", "可选"]
+    "type": [
+      "课程",
+      "参考",
+      "推荐",
+      "项目",
+      "经验",
+      "记录",
+      "管理"
+    ],
+    "状态": [
+      "草稿",
+      "可用",
+      "待修订"
+    ],
+    "可见性": [
+      "公开",
+      "内部"
+    ],
+    "难度": [
+      "入门",
+      "进阶",
+      "深入",
+      "待补"
+    ],
+    "推荐级别": [
+      "必装",
+      "建议",
+      "可选"
+    ]
   },
-
   "fields": {
-    "title": { "required": true, "type": "string", "description": "与文件主题一致" },
-    "type": { "required": true, "type": "string", "enum": "type", "description": "决定必填章节" },
-    "部门": { "required": true, "type": "string", "enum": ["终端服务部"] },
-    "维护人": { "required": true, "type": "string", "description": "GitHub 用户名，可多个，逗号分隔" },
-    "更新": { "required": true, "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
-    "状态": { "required": true, "type": "string", "enum": "状态" },
-    "可见性": { "required": true, "type": "string", "enum": "可见性" },
-    "难度": { "required": true, "type": "string", "enum": "难度", "requiredFor": ["课程", "参考", "推荐", "项目"] },
-    "适用版本": { "required": true, "type": "string", "requiredFor": ["课程", "参考", "推荐", "项目"], "description": "软件/系统版本；没有版本概念写「不限」，不确定写「待补」。推荐类要写出平台" },
-    "推荐级别": { "required": true, "type": "string", "enum": "推荐级别", "requiredFor": ["推荐"], "description": "必装 / 建议 / 可选——推荐类必填，索引表会把它显示在一句话前" },
-    "前置": { "required": false, "type": "array", "items": "string", "description": "本页依赖的页面，仓库内相对路径" },
-    "一句话": { "required": false, "type": "string", "description": "一句话说清这页解决什么问题，进索引表；有则优先于正文首段" },
-    "tags": { "required": false, "type": "array", "items": "string" }
+    "title": {
+      "required": true,
+      "type": "string",
+      "description": "与文件主题一致"
+    },
+    "type": {
+      "required": true,
+      "type": "string",
+      "enum": "type",
+      "description": "决定必填章节"
+    },
+    "部门": {
+      "required": true,
+      "type": "string",
+      "enum": [
+        "终端服务部"
+      ]
+    },
+    "维护人": {
+      "required": true,
+      "type": "string",
+      "description": "GitHub 用户名，可多个，逗号分隔"
+    },
+    "更新": {
+      "required": true,
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "状态": {
+      "required": true,
+      "type": "string",
+      "enum": "状态"
+    },
+    "可见性": {
+      "required": true,
+      "type": "string",
+      "enum": "可见性"
+    },
+    "难度": {
+      "required": true,
+      "type": "string",
+      "enum": "难度",
+      "requiredFor": [
+        "课程",
+        "参考",
+        "推荐",
+        "项目"
+      ]
+    },
+    "适用版本": {
+      "required": true,
+      "type": "string",
+      "requiredFor": [
+        "课程",
+        "参考",
+        "推荐",
+        "项目"
+      ],
+      "description": "软件/系统版本；没有版本概念写「不限」，不确定写「待补」。推荐类要写出平台"
+    },
+    "推荐级别": {
+      "required": true,
+      "type": "string",
+      "enum": "推荐级别",
+      "requiredFor": [
+        "推荐"
+      ],
+      "description": "必装 / 建议 / 可选——推荐类必填，索引表会把它显示在一句话前"
+    },
+    "前置": {
+      "required": false,
+      "type": "array",
+      "items": "string",
+      "description": "本页依赖的页面，仓库内相对路径"
+    },
+    "一句话": {
+      "required": false,
+      "type": "string",
+      "description": "一句话说清这页解决什么问题，进索引表；有则优先于正文首段"
+    },
+    "tags": {
+      "required": false,
+      "type": "array",
+      "items": "string"
+    },
+    "专题": {
+      "required": false,
+      "type": "string",
+      "description": "所属专题目录名（如 ComfyUI）；专题内的页面填，单篇不填。用于索引分组与 Agent 聚合"
+    }
   },
-
-  "alwaysRequiredFields": ["title", "type", "部门", "维护人", "更新", "状态", "可见性"],
-  "v2Fields": ["难度", "适用版本"],
-
+  "alwaysRequiredFields": [
+    "title",
+    "type",
+    "部门",
+    "维护人",
+    "更新",
+    "状态",
+    "可见性"
+  ],
+  "v2Fields": [
+    "难度",
+    "适用版本"
+  ],
   "rules": {
     "files": "docs/部门/**/*.md",
     "comment": "docs/部门/ 下每个 .md 都必须以 front-matter 开头。",
     "headingPolicy": "章节标题必须逐字出现，可用任意层级的 ## 标题；不适用的小节保留标题并写「不适用」"
   },
-
   "skipSections": [
     "docs/部门/*/README.md",
     "docs/部门/*/招新介绍.md",
@@ -51,55 +157,163 @@
     "docs/部门/*/历史与交接/README.md"
   ],
   "skipSectionsComment": "索引页与部门管理页结构就是表格和列表，硬套正文章节会让它们退化成假正文；它们的 type 是「管理」，本可以不进这张表，这里显式列出是为了让规则一眼可读。归档目录整棵豁免。",
-
-  "sectionsEnforced": ["课程", "推荐"],
-  "sectionsEnforcedComment": "试运行期间只对「课程」与「推荐」强制校验必填章节。推荐类是 2026-10-12 新增的，没有历史包袱，所以从第一天就硬校验；其余类型迁移一批、绿一批，就把该 type 加进来。",
-
+  "sectionsEnforced": [
+    "课程",
+    "推荐"
+  ],
+  "sectionsEnforcedComment": "只有列在这里的 type 强制校验必填章节；参考类骨架已定稿但存量页面未重排，暂不进本列表，重排完成后再加",
   "sections": {
-    "课程": ["一、学习目标", "二、前置", "三、正文", "四、练习", "五、验收标准", "六、下一讲"],
-    "参考": ["一、是什么", "二、什么时候用", "三、怎么做", "四、常见问题", "五、相关"],
-    "推荐": ["一、什么场景用", "二、为什么是它", "三、怎么开始", "四、代价与坑", "五、什么情况别用", "六、核实记录"],
-    "项目": ["一、项目目标", "二、环境", "三、复现步骤", "四、成果", "五、已知问题", "六、用到的技术"],
-    "经验": ["一、现象", "二、环境", "三、原因", "四、解决", "五、验证", "六、经验"],
+    "课程": [
+      "一、学习目标",
+      "二、前置",
+      "三、正文",
+      "四、练习",
+      "五、验收标准",
+      "六、下一讲"
+    ],
+    "参考": [
+      "一、这页讲什么",
+      "二、开始之前",
+      "三、动手做",
+      "四、做完怎么确认",
+      "五、卡住了怎么排查",
+      "六、为什么这样能成",
+      "七、边界与替代",
+      "八、官方资料"
+    ],
+    "推荐": [
+      "一、什么场景用",
+      "二、为什么是它",
+      "三、怎么开始",
+      "四、代价与坑",
+      "五、什么情况别用",
+      "六、核实记录"
+    ],
+    "项目": [
+      "一、项目目标",
+      "二、环境",
+      "三、复现步骤",
+      "四、成果",
+      "五、已知问题",
+      "六、用到的技术"
+    ],
+    "经验": [
+      "一、现象",
+      "二、环境",
+      "三、原因",
+      "四、解决",
+      "五、验证",
+      "六、经验"
+    ],
     "记录": [],
     "管理": []
   },
-
   "types": {
-    "课程": { "dir": "学习/", "template": "_templates/课程模板.md", "indexed": "学习" },
-    "参考": { "dir": "参考/", "template": "_templates/参考模板.md", "indexed": "参考" },
-    "推荐": { "dir": "参考/", "template": "_templates/推荐模板.md", "indexed": "参考" },
-    "项目": { "dir": "项目/", "template": "_templates/项目模板.md", "indexed": "项目" },
-    "经验": { "dir": "经验/", "template": "_templates/经验模板.md", "indexed": "经验" },
-    "记录": { "dir": "历史与交接/", "template": "_templates/记录模板.md" },
-    "管理": { "dir": "（部门根 / 规范 / 各类 README）", "template": "_templates/管理模板.md" }
+    "课程": {
+      "dir": "学习/",
+      "template": "_templates/课程模板.md",
+      "indexed": "学习"
+    },
+    "参考": {
+      "dir": "参考/",
+      "template": "_templates/参考模板.md",
+      "indexed": "参考"
+    },
+    "推荐": {
+      "dir": "参考/",
+      "template": "_templates/推荐模板.md",
+      "indexed": "参考"
+    },
+    "项目": {
+      "dir": "项目/",
+      "template": "_templates/项目模板.md",
+      "indexed": "项目"
+    },
+    "经验": {
+      "dir": "经验/",
+      "template": "_templates/经验模板.md",
+      "indexed": "经验"
+    },
+    "记录": {
+      "dir": "历史与交接/",
+      "template": "_templates/记录模板.md"
+    },
+    "管理": {
+      "dir": "（部门根 / 规范 / 各类 README）",
+      "template": "_templates/管理模板.md"
+    }
   },
-
   "indexMarkers": {
     "open": "<!-- gen:index ",
     "close": "<!-- /gen:index -->",
-    "columns": ["名称", "一句话", "难度", "状态", "更新"],
+    "columns": [
+      "名称",
+      "一句话",
+      "难度",
+      "状态",
+      "更新"
+    ],
     "comment": "索引表由 scripts/gen-index.mjs 按 front-matter 生成，只重写标记之间的内容。type=推荐 的页面，一句话前会带上推荐级别。"
   },
-
   "nav": {
-    "mkdocsMarkers": { "open": "  # >>> gen:nav", "close": "  # <<< gen:nav" },
-    "generatedFiles": ["mkdocs.yml", "nav.片段.yml", "SUMMARY.md"],
+    "mkdocsMarkers": {
+      "open": "  # >>> gen:nav",
+      "close": "  # <<< gen:nav"
+    },
+    "generatedFiles": [
+      "mkdocs.yml",
+      "nav.片段.yml",
+      "SUMMARY.md"
+    ],
     "comment": "三份导航由 scripts/gen-nav.mjs 从目录树生成；CI 重跑生成并比对，手改会被打回。"
   },
-
   "checks": [
-    { "id": "frontmatter-present", "level": "error", "rule": "以 --- 开头并闭合 front-matter 块" },
-    { "id": "required-fields", "level": "error", "rule": "alwaysRequiredFields 全部存在且非空" },
-    { "id": "v2-fields", "level": "warn-in-migrating", "rule": "课程/参考/推荐/项目 需要 难度 与 适用版本；值 待补 时列入待补清单" },
-    { "id": "enum-values", "level": "error", "rule": "凡在 fields 里声明了 enum 的字段逐个校验（type / 部门 / 状态 / 可见性 / 难度 / 推荐级别）" },
-    { "id": "required-for", "level": "error", "rule": "fields 的 requiredFor 命中当前 type 时该字段必填；v2Fields 里的字段在迁移期只提醒" },
-    { "id": "date-format", "level": "error", "rule": "更新 匹配 ^\\d{4}-\\d{2}-\\d{2}$" },
-    { "id": "required-sections", "level": "error-for-sectionsEnforced", "rule": "sectionsEnforced 里的 type 逐个查找同名标题" },
-    { "id": "stale", "level": "warn", "rule": "更新 距今超过 12 个月 → 待复核清单" },
-    { "id": "internal-visibility", "level": "info", "rule": "可见性=内部 时公开库只放标题 + 一句说明 + 私有库路径" }
+    {
+      "id": "frontmatter-present",
+      "level": "error",
+      "rule": "以 --- 开头并闭合 front-matter 块"
+    },
+    {
+      "id": "required-fields",
+      "level": "error",
+      "rule": "alwaysRequiredFields 全部存在且非空"
+    },
+    {
+      "id": "v2-fields",
+      "level": "warn-in-migrating",
+      "rule": "课程/参考/推荐/项目 需要 难度 与 适用版本；值 待补 时列入待补清单"
+    },
+    {
+      "id": "enum-values",
+      "level": "error",
+      "rule": "凡在 fields 里声明了 enum 的字段逐个校验（type / 部门 / 状态 / 可见性 / 难度 / 推荐级别）"
+    },
+    {
+      "id": "required-for",
+      "level": "error",
+      "rule": "fields 的 requiredFor 命中当前 type 时该字段必填；v2Fields 里的字段在迁移期只提醒"
+    },
+    {
+      "id": "date-format",
+      "level": "error",
+      "rule": "更新 匹配 ^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    {
+      "id": "required-sections",
+      "level": "error-for-sectionsEnforced",
+      "rule": "sectionsEnforced 里的 type 逐个查找同名标题"
+    },
+    {
+      "id": "stale",
+      "level": "warn",
+      "rule": "更新 距今超过 12 个月 → 待复核清单"
+    },
+    {
+      "id": "internal-visibility",
+      "level": "info",
+      "rule": "可见性=内部 时公开库只放标题 + 一句说明 + 私有库路径"
+    }
   ],
-
   "hardRules": [
     "编码 UTF-8，换行 LF，文件末尾留一个换行，行尾不留空格",
     "中文与英文/数字之间加空格",

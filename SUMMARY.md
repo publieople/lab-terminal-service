@@ -21,8 +21,11 @@
     * [学习路径](docs/部门/终端服务部/学习/学习路径.md)
   * 参考
     * [参考](docs/部门/终端服务部/参考/README.md)
+    * ComfyUI
+      * [ComfyUI](docs/部门/终端服务部/参考/ComfyUI/README.md)
+      * [ComfyUI 部署](docs/部门/终端服务部/参考/ComfyUI/01-部署.md)
+      * [ComfyUI 第一次出图与界面](docs/部门/终端服务部/参考/ComfyUI/02-第一次出图与界面.md)
     * [Agent 平台部署](docs/部门/终端服务部/参考/Agent平台部署.md)
-    * [ComfyUI 部署](docs/部门/终端服务部/参考/ComfyUI部署.md)
     * [GPU 与 CUDA 环境](docs/部门/终端服务部/参考/GPU与CUDA环境.md)
     * [Git 分支不敢动手，先用可视化练习走一遍](docs/部门/终端服务部/参考/Git分支不敢动手就先用可视化练习.md)
     * [Linux 服务器运维](docs/部门/终端服务部/参考/Linux服务器运维.md)
