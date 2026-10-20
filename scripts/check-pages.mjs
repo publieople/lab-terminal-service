@@ -1,6 +1,9 @@
 // 知识库 v2 校验器：字段、枚举、必填章节，并输出三份待办清单。
 //
-// 规则数据在 _schema/pages.json。试运行期间（schema.migrating = true）：
+// 规则数据在 _schema/pages.json：枚举由 fields 里的 enum 声明驱动，类型必填字段由
+// requiredFor 驱动——加类型、加字段只改契约，本脚本不用动。
+//
+// 试运行期间（schema.migrating = true）：
 //   - 缺「难度 / 适用版本」只进清单，不算错；
 //   - 只有 schema.sectionsEnforced 里列出的 type 强制校验必填章节。
 // 迁移完成、审核通过后把 migrating 改成 false，它就从"提醒"变成"硬门"。
@@ -34,10 +37,12 @@ for (const p of pages) {
   for (const f of schema.alwaysRequiredFields) {
     if (!d[f]) errors.push(`${p.rel}: 缺必填字段「${f}」`);
   }
-  for (const [field, enumName] of [['type', 'type'], ['状态', '状态'], ['可见性', '可见性'], ['难度', '难度']]) {
+  // 枚举与必填都由 _schema/pages.json 驱动：加类型、加字段只改契约，不改这里。
+  for (const [field, cfg] of Object.entries(schema.fields)) {
+    const allowed = Array.isArray(cfg.enum) ? cfg.enum : schema.enums[cfg.enum];
     const v = d[field];
-    if (v && schema.enums[enumName] && !schema.enums[enumName].includes(v)) {
-      errors.push(`${p.rel}: ${field} 取值「${v}」不在枚举 ${schema.enums[enumName].join(' / ')} 里`);
+    if (v && allowed && !allowed.includes(v)) {
+      errors.push(`${p.rel}: ${field} 取值「${v}」不在枚举 ${allowed.join(' / ')} 里`);
     }
   }
   if (d['更新'] && !/^\d{4}-\d{2}-\d{2}$/.test(d['更新'])) {
@@ -47,12 +52,15 @@ for (const p of pages) {
     stale.push(`${p.rel}: 更新 ${d['更新']}`);
   }
 
-  const needV2 = (schema.fields['难度'].requiredFor || []).includes(d.type);
-  if (needV2) {
-    for (const f of schema.v2Fields) {
-      if (!d[f]) missingField.push(`${p.rel}: 缺「${f}」`);
-      else if (d[f] === '待补') backlog.push(`${p.rel}: ${f} 待补`);
+  for (const [f, cfg] of Object.entries(schema.fields)) {
+    if (!(cfg.requiredFor || []).includes(d.type)) continue;
+    if (!d[f]) {
+      // 迁移期：v2 新字段缺了只进清单；非 v2 字段（如「推荐级别」）当场报错。
+      if (schema.v2Fields.includes(f)) missingField.push(`${p.rel}: 缺「${f}」`);
+      else errors.push(`${p.rel}: 缺「${f}」`);
+      continue;
     }
+    if (d[f] === '待补') backlog.push(`${p.rel}: ${f} 待补`);
   }
 
   if (schema.sectionsEnforced.includes(d.type)) {
