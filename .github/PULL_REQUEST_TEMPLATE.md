@@ -63,6 +63,7 @@ node scripts\check-pages.mjs
 node scripts\gen-index.mjs --check
 node scripts\gen-nav.mjs --check
 node scripts\check-secrets.mjs
+node scripts\check-stc.mjs
 npx markdownlint-cli2
 .\.venv\Scripts\mkdocs build --strict
 ```

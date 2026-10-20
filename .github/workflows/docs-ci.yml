@@ -1,10 +1,12 @@
-# 文档 CI —— 四道内容门 + 一道构建门，任何一道不过就阻断合并
+# 文档 CI —— 五道内容门 + 一道构建门，任何一道不过就阻断合并
 #
 # 门 1 markdownlint-cli2   中文排版（MD003/MD009/MD047 这些最常见的退回原因都在这）
 # 门 2 check-pages         front-matter 字段与枚举 + 按 type 检查正文必填章节 + 索引与导航是否与目录树一致
 # 门 3 gitleaks + check-secrets  凭据、内网 IP、tailnet 域名等敏感信息
 # 门 4 lychee              链接检查
 # 门 5 mkdocs --strict     真正构建一遍：警告即失败，等同于本地的 .\.venv\Scripts\mkdocs build --strict
+# 门 6 check-stc           STC 的两条表达规则（代词主语、口号代替事实），按基线只拦新增
+#                          见 scripts/check-stc.mjs 顶部注释：为什么只挑这两条
 #
 # 本地先把这几道门跑一遍再提 PR，见 CONTRIBUTING.md §2 和 .github/PULL_REQUEST_TEMPLATE.md。
 
@@ -131,6 +133,25 @@ jobs:
             'docs/**/*.md'
             '*.md'
           fail: true
+
+  stc:
+    name: 门 6 · 表达（STC 两条规则，按基线拦新增）
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 准备 Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # 检查器是 vendored 的（skills/stc/tools/cli.mjs），只用 Node 内置模块，不需要 npm install。
+      # 只拦 D1（读者不知道主语是谁）与 G7（口号代替了事实）两条：其余规则对这个语料误报太多，
+      # 全量接进来只会天天红。存量 245 处按文件记在 .stc-baseline.json，只挡新增；
+      # 清理过的页面记得跑 `node scripts/check-stc.mjs --update` 把基线压下去。
+      - name: STC 表达门
+        run: node scripts/check-stc.mjs
 
   build:
     name: 门 5 · 构建（mkdocs build --strict）
