@@ -25,7 +25,6 @@
             - "终端环境": 部门/终端服务部/学习/02-终端环境/README.md
         - "Linux 基础":
             - "Linux 基础": 部门/终端服务部/学习/03-Linux基础/README.md
-        - "VS Code 高效使用": 部门/终端服务部/学习/VSCode高效使用.md
         - "Windows 基本操作": 部门/终端服务部/学习/Windows基本操作.md
         - "Windows 常用软件": 部门/终端服务部/学习/Windows常用软件.md
         - "学习路径": 部门/终端服务部/学习/学习路径.md
@@ -48,6 +47,13 @@
             - "Tailscale 子网路由与出口节点": 部门/终端服务部/参考/Tailscale/03-子网路由与出口节点.md
             - "Tailscale serve 与 funnel": 部门/终端服务部/参考/Tailscale/04-serve与funnel.md
             - "Tailscale 排障与安全": 部门/终端服务部/参考/Tailscale/05-排障与安全.md
+        - "VS Code 专题":
+            - "VS Code 专题": 部门/终端服务部/参考/VSCode/README.md
+            - "VS Code 安装与远程开发": 部门/终端服务部/参考/VSCode/01-安装与远程开发.md
+            - "VS Code 常用快捷键": 部门/终端服务部/参考/VSCode/02-常用快捷键.md
+            - "VS Code 设置与插件": 部门/终端服务部/参考/VSCode/03-设置与插件.md
+            - "VS Code 调试与终端": 部门/终端服务部/参考/VSCode/04-调试与终端.md
+            - "VS Code 出问题怎么查": 部门/终端服务部/参考/VSCode/05-问题排查.md
         - "Agent 平台部署": 部门/终端服务部/参考/Agent平台部署.md
         - "GPU 与 CUDA 环境": 部门/终端服务部/参考/GPU与CUDA环境.md
         - "Git 分支不敢动手，先用可视化练习走一遍": 部门/终端服务部/参考/Git分支不敢动手就先用可视化练习.md
