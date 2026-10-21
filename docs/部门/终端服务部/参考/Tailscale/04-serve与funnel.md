@@ -73,7 +73,7 @@ https://lab-server.<tailnet>.ts.net/
 | 指定端口 | `tailscale serve --https=8443 localhost:3000` | 避免占用 443 |
 | HTTP（不加密） | `tailscale serve --http=80 localhost:3000` | 仅内网测试 |
 | 静态目录 | `tailscale serve --bg /srv/site` | 分享文件 |
-| 纯文本 | `tailscale serve text:"维护中"` | 临时占位页 |
+| 纯文本 | `tailscale serve text:「维护中」` | 临时占位页 |
 | TCP 透传 | `tailscale serve --bg --tcp=2222 tcp://localhost:22` | 不用 HTTP 的服务 |
 
 看到这个就算成：按需要选一种写法，`serve status` 里能看到对应条目。
