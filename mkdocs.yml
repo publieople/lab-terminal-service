@@ -161,12 +161,18 @@ nav:
               - "ComfyUI 性能与显存": 部门/终端服务部/参考/ComfyUI/06-性能与显存.md
               - "ComfyUI 升级与排障": 部门/终端服务部/参考/ComfyUI/07-升级与排障.md
               - "ComfyUI 生态与替代": 部门/终端服务部/参考/ComfyUI/08-生态与替代.md
+          - "Tailscale 专题":
+              - "Tailscale 专题": 部门/终端服务部/参考/Tailscale/README.md
+              - "Tailscale 组网与直连": 部门/终端服务部/参考/Tailscale/01-组网与直连.md
+              - "Tailscale 设备、标签与 ACL": 部门/终端服务部/参考/Tailscale/02-设备、标签与ACL.md
+              - "Tailscale 子网路由与出口节点": 部门/终端服务部/参考/Tailscale/03-子网路由与出口节点.md
+              - "Tailscale serve 与 funnel": 部门/终端服务部/参考/Tailscale/04-serve与funnel.md
+              - "Tailscale 排障与安全": 部门/终端服务部/参考/Tailscale/05-排障与安全.md
           - "Agent 平台部署": 部门/终端服务部/参考/Agent平台部署.md
           - "GPU 与 CUDA 环境": 部门/终端服务部/参考/GPU与CUDA环境.md
           - "Git 分支不敢动手，先用可视化练习走一遍": 部门/终端服务部/参考/Git分支不敢动手就先用可视化练习.md
           - "Linux 服务器运维": 部门/终端服务部/参考/Linux服务器运维.md
           - "SSH 远程登录与端口转发": 部门/终端服务部/参考/SSH.md
-          - "Tailscale 组网": 部门/终端服务部/参考/Tailscale组网.md
           - "反向代理与 HTTPS": 部门/终端服务部/参考/反向代理与HTTPS.md
           - "容器与编排": 部门/终端服务部/参考/容器与编排.md
           - "开发经验": 部门/终端服务部/参考/开发经验.md

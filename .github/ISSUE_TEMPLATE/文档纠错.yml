@@ -16,7 +16,7 @@ body:
         - 部门/终端服务部/参考/README.md（模块总览）
         - 部门/终端服务部/参考/Linux服务器运维.md
         - 部门/终端服务部/参考/容器与编排.md
-        - 部门/终端服务部/参考/Tailscale组网.md
+        - 部门/终端服务部/参考/Tailscale/README.md
         - 部门/终端服务部/参考/反向代理与HTTPS.md
         - 部门/终端服务部/参考/GPU与CUDA环境.md
         - 部门/终端服务部/参考/ComfyUI/01-部署.md

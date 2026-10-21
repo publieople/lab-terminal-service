@@ -194,7 +194,7 @@ printf 'net.ipv4.ip_forward=1\nnet.ipv6.conf.all.forwarding=1\n' | sudo tee /etc
 sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
 ```
 
-只通告不批准，或者客户端没加 `--accept-routes`，都不会报错，只是不通。更完整的说明见 [Tailscale 组网](../参考/Tailscale组网.md)。
+只通告不批准，或者客户端没加 `--accept-routes`，都不会报错，只是不通。更完整的说明见 [Tailscale 组网](../参考/Tailscale/README.md)。
 
 ### 3.4 让任务不随窗口结束
 
@@ -251,10 +251,10 @@ Agent 一律在这个会话里启动，会话名按 2.4 的约定写。判断标
 | 问题 | 表现 | 去哪看 |
 | --- | --- | --- |
 | 子网路由静默不通 | 已通告已批准，仍然连不上 | 3.3 的三件套 |
-| 延迟突然变高 | 从个位毫秒跳到一百毫秒以上 | [Tailscale 组网](../参考/Tailscale组网.md) |
+| 延迟突然变高 | 从个位毫秒跳到一百毫秒以上 | [Tailscale 组网](../参考/Tailscale/README.md) |
 | 服务端口冲突 | 症状出现在完全无关的服务上 | [端口占用导致同域名本机访问 404](../经验/端口占用导致同域名本机访问404.md) |
 | 连接器报记录被占用 | `The local Connector record is busy`，重试无效 | [Agent 平台部署](../参考/Agent平台部署.md) |
-| 组网客户端与其它 VPN 抢路由 | 打洞失败，流量走中转 | [Tailscale 组网](../参考/Tailscale组网.md) |
+| 组网客户端与其它 VPN 抢路由 | 打洞失败，流量走中转 | [Tailscale 组网](../参考/Tailscale/README.md) |
 
 ## 六、用到的技术
 
@@ -294,7 +294,7 @@ flowchart TB
 
 ## 相关
 
-- [Tailscale 组网](../参考/Tailscale组网.md) —— L0 的完整用法
+- [Tailscale 组网](../参考/Tailscale/README.md) —— L0 的完整用法
 - [Agent 平台部署](../参考/Agent平台部署.md) —— L1 与 L2 的完整用法
 - [监控与备份](../参考/监控与备份.md) —— 设备接入之后怎么知道它还好
 - [端口占用导致同域名本机访问 404](../经验/端口占用导致同域名本机访问404.md) —— 端口登记的由来

@@ -159,7 +159,7 @@ Congratulations, all simulated renewals succeeded
 ## 七、边界与替代
 
 - **不做负载均衡与集群**：多台上游、健康检查、会话保持不在本页范围。
-- **内网自用可以不加证书**：只在组网内部访问的服务，用 [Tailscale 组网](Tailscale组网.md) 的 `serve` 更省事。
+- **内网自用可以不加证书**：只在组网内部访问的服务，用 [Tailscale 组网](Tailscale/README.md) 的 `serve` 更省事。
 - **组网内没有公网证书**：tailnet 域名不签发 TLS 证书，需要 HTTPS 就自签或走外部证书。
 - **别把入口当防火墙**：反向代理不做访问控制，要限制谁能访问得另外加认证。
 - **80 端口不是随便用的**：新增占用要先登记，否则会和别人的服务撞车。
