@@ -80,19 +80,19 @@ tags: [课程, Windows, 工具]
 | GitHub CLI | 在终端里建仓库、提 PR、看 CI 结果，不用切浏览器 | `winget install --id GitHub.cli --exact` |
 | Node.js | 前端工具链与大量命令行工具的运行时 | `winget install --id OpenJS.NodeJS --exact` |
 | Rustup | Rust 工具链安装器，顺带带来一批用 Rust 写的命令行工具 | `winget install --id Rustlang.Rustup --exact` |
-| VS Code | 默认编辑器：写代码、写文档、改配置都用它 | `winget install --id Microsoft.VisualStudioCode --exact` |
+| VS Code | 默认编辑器：写代码、写文档、改配置都用 VS Code | `winget install --id Microsoft.VisualStudioCode --exact` |
 | Visual Studio Community | 需要 .NET / C++ 桌面或调试场景时才装，体积大，日常不必装 | `winget install --id Microsoft.VisualStudio.2022.Community --exact` |
 | Docker Desktop | 本机跑容器。要跟着部署类文档动手时再装 | `winget install --id Docker.DockerDesktop --exact` |
 | Sysinternals Suite | 官方排查工具合集：Autoruns（开机自启到底有谁）、Process Explorer（进程树与句柄）、TCPView（端口与连接） | `winget install --id Microsoft.Sysinternals.Suite --exact` |
 | Scoop | 免管理员的命令行软件安装器：CLI 工具、字体、运行时都能装，装在用户目录里，重装系统时容易恢复 | 按官方说明安装 |
-| FFmpeg | 命令行音视频处理：转码、截取、合成、抽帧。很多图形工具在后台依赖它 | `scoop install ffmpeg` 或官网压缩包 |
+| FFmpeg | 命令行音视频处理：转码、截取、合成、抽帧。很多图形工具在后台依赖 FFmpeg | `scoop install ffmpeg` 或官网压缩包 |
 
 ### 5.3 网络与远程
 
 | 软件 | 解决什么问题 | 安装 |
 | --- | --- | --- |
 | Tailscale | 把设备接进实验室组网，之后按内网地址直接访问 | `winget install --id Tailscale.Tailscale --exact` |
-| RustDesk | 远程桌面，**可以自建中转服务器**；不想让画面经过第三方时选它 | 官网安装包 |
+| RustDesk | 远程桌面，**可以自建中转服务器**；不想让画面经过第三方时选 RustDesk | 官网安装包 |
 | 远程协助工具（ToDesk / UU 远程等，选装） | 临时帮别人看屏幕。`winget` 里没有，走官网安装包 | 官网安装包 |
 
 一条原则：**实验室内部的机器优先走组网**，能自己连就不用第三方远程桌面——多一个中转，就多一份说不清的暴露面。
@@ -101,9 +101,9 @@ tags: [课程, Windows, 工具]
 
 | 软件 | 解决什么问题 | 安装 |
 | --- | --- | --- |
-| OBS Studio | 录屏与直播，课程录制、演示录制都用它 | `winget install --id OBSProject.OBSStudio --exact` |
+| OBS Studio | 录屏与直播，课程录制、演示录制都用 OBS Studio | `winget install --id OBSProject.OBSStudio --exact` |
 
-更重的剪辑软件（DaVinci Resolve、Premiere 等）只在确有产出需求时装，且它们不在 `winget` 里，装之前先确认显卡与磁盘空间。
+更重的剪辑软件（DaVinci Resolve、Premiere 等）只在确有产出需求时装，且这几款不在 `winget` 里，装之前先确认显卡与磁盘空间。
 
 ### 5.5 安全
 
@@ -149,5 +149,5 @@ Windows 自带的 Defender 对个人机已经够用。要装第三方（例如�
 ## 七、项目衔接
 
 - 下一步：[终端环境与配置](../参考/终端环境与配置.md)——把上面这些拼成一套顺手的终端。
-- 组网部分与[Tailscale 组网](../参考/Tailscale组网.md)对接。
+- 组网部分与[Tailscale 组网](../参考/Tailscale/README.md)对接。
 - `setup.ps1` 与软件清单一类的东西适合放进版本库（内部库或你自己的 dotfiles），重装系统时能直接复用。
