@@ -10,7 +10,7 @@ CI 会跑同样的检查（见 .github/workflows/docs-ci.yml），红着提交�
 ## 为什么改
 
 <!-- 起因是什么：谁遇到了什么问题、哪一步跑不通、哪条链接失效、哪里和现状对不上了。 -->
-<!-- 删除或大改一页时，这里必须写清原因，并说明旧内容去了哪里（通常是 docs/归档/）。 -->
+<!-- 删除或大改一页时，这里必须写清原因，并说明旧内容去了哪里（git 历史里查得到）。 -->
 
 关联 Issue：<!-- 例如 Closes #12；没有就写「无」 -->
 
@@ -63,6 +63,7 @@ node scripts\check-pages.mjs
 node scripts\gen-index.mjs --check
 node scripts\gen-nav.mjs --check
 node scripts\check-secrets.mjs
+node scripts\check-stc.mjs
 npx markdownlint-cli2
 .\.venv\Scripts\mkdocs build --strict
 ```
